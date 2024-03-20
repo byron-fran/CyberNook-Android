@@ -1,13 +1,13 @@
 import { View, Text } from 'react-native'
 
-const CartScreen = () => {
+const AppNavigator = () => {
 
     return (
         <View>
-            <Text>CartScreen</Text>
+            <Text>AppNavigator</Text>
         </View>
 
     )
 
 }
-export default CartScreen
+export default AppNavigator
