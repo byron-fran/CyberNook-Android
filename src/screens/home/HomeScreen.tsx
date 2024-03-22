@@ -1,13 +1,11 @@
 import { View, Text } from 'react-native'
 import SearchBar from '../../components/searchBar/SearchBar'
+import AppNavigator from '../../routes/Navigator'
 
 const HomeScreen = () => {
 
     return (
-        <View style={{ flex : 1}}>
-            <SearchBar/>
-            <Text>HomeScreen</Text>
-        </View>
+        <AppNavigator/>
 
     )
 
