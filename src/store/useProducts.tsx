@@ -15,11 +15,10 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
         const {data} = await axios.get<Product[]>('/store/products');
         set((state) => ({
             ...state,
-            isLoading : false
-        }))
-        set({
+            isLoading : false,
             products : data
-        })
+        }))
+    
         return data
     },
 

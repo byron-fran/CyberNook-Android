@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Pressable } from 'react-native'
+import { View, Image, StyleSheet, Pressable, FlatList } from 'react-native'
 import { Product } from '../../interfaces/products';
 import { FC } from 'react';
 import { Text } from '@ui-kitten/components';
@@ -18,28 +18,53 @@ const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
         })
         return productGreatestOffer
     };
-    const product = findProductMoreOffer();
+    const productOne = findProductMoreOffer();
+
+    const productsInOffer = products.filter(product => product.discount > 0 && product.discount <= 10).slice(0, 10);
 
 
-    if (product === null) return null
+    if (productOne === null) return null
+
 
     return (
-        <View>
+        <View style={{ flex: 1, height: '100%' }}>
+
             <View style={styles.card}>
                 <Image
                     style={styles.imgProduct}
-                    source={{ uri: product.image }}
+                    source={{ uri: productOne.image }}
                 />
-                <Text style={styles.titleProduct}>{product.name}</Text>
+                <Text style={styles.titleProduct}>{productOne.name}</Text>
                 <Text
                     style={styles.descriptionProduct}
-                    numberOfLines={7}>{product.description}
+                    numberOfLines={7}>{productOne.description}
                 </Text>
                 <Pressable style={styles.btnAdd}>
-                    <Text style={styles.textAdd}>Shop now and save{' '}{product.discount}%</Text>
+                    <Text style={styles.textAdd}>Shop now and save{' '}{productOne.discount}%</Text>
                 </Pressable>
             </View>
-            {/* products in offer */}
+            {/* products in offer by 10 percent(%) */}
+            <FlatList
+                style={{ marginLeft : 20}}
+                data={productsInOffer}
+                renderItem={({ item }) => (
+                    <View style={{ height: 400, width: 180, marginTop: 20 }}>
+                        <Image
+                            style={[styles.imgProduct, { height: 160 }]}
+                            source={{ uri: item.image }}
+                        />
+                        <Text style={[styles.titleProduct, { textAlign: 'center', maxHeight: 100, height: 60 }]}>{item.name}</Text>
+                        <Pressable style={styles.btnAdd}>
+                            <Text style={[styles.textAdd, { textAlign: 'center' }]}>Save Up {item?.discount}%</Text>
+                        </Pressable>
+                    </View>
+                )}
+                keyExtractor={(item) => item.id}
+                horizontal={true}
+                ItemSeparatorComponent={() => <View style={{ width: 13 }}></View>}
+
+            />
+
         </View>
 
     )
@@ -48,8 +73,8 @@ const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
 
 const styles = StyleSheet.create({
     card: {
-        width: '80%',
-        marginHorizontal: '10%'
+        width: '90%',
+        marginHorizontal: '5%'
     },
     imgProduct: {
         width: '100%',
@@ -58,7 +83,7 @@ const styles = StyleSheet.create({
         marginTop: 40
     },
     titleProduct: {
-        fontSize: 25,
+        fontSize: 22,
         color: '#000',
         fontWeight: 'bold',
         marginTop: 20
@@ -73,8 +98,9 @@ const styles = StyleSheet.create({
     btnAdd: {
         marginTop: 30,
         backgroundColor: '#F97316',
-        width: '80%',
-        padding: 15,
+        width: '100%',
+        paddingVertical: 12,
+        paddingHorizontal: 10,
         borderRadius: 5,
 
     },
