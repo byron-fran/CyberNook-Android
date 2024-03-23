@@ -14,7 +14,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
     return (
         <LayoutMain>
-            <ScrollView style={{ flex : 1}}>
+ 
 
                 <View style={style.containerForm}>
                     {/* Card Input */}
@@ -65,11 +65,11 @@ const RegisterScreen = ({ navigation }: Props) => {
                     <Pressable style={style.btn}>
                         <Text style={style.btnText}>Register</Text>
                     </Pressable>
-                    <Pressable onPress={() => navigation.navigate('RegisterScreen')}>
-                        <Text style={style.linkText}>Create account</Text>
+                    <Pressable onPress={() => navigation.navigate('LoginScreen')}>
+                        <Text style={style.linkText}>Login</Text>
                     </Pressable>
                 </View>
-            </ScrollView>
+     
 
         </LayoutMain>
 

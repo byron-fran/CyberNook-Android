@@ -11,13 +11,14 @@ import { useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Button, DrawerLayoutAndroid, Pressable, View } from 'react-native'
 import { ApplicationProvider } from '@ui-kitten/components';
+import AppNavigator from './src/routes/Navigator';
 
 export type TabRootParams = {
 
   CartScreen: undefined,
   FavoriteScreen: undefined,
   DrawerScreen: undefined,
-  HomeScreen: undefined,
+  AppNavigator: undefined,
   LayoutMain: undefined
 }
 
@@ -29,15 +30,15 @@ const App = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName='HomeScreen' screenOptions={{
-          headerShown: false
-        }}>
-
-          <Tab.Screen name='HomeScreen' component={HomeScreen} />
+        <Tab.Navigator 
+          initialRouteName='AppNavigator' 
+          screenOptions={{ headerShown: false }}
+          >
+          <Tab.Screen name='AppNavigator' component={AppNavigator} />
           <Tab.Screen name='CartScreen' component={CartScreen} />
           <Tab.Screen name='FavoriteScreen' component={FavoritesScreen} />
           <Tab.Screen name='DrawerScreen' component={Drawer} />
-          <Tab.Screen name='LayoutMain' component={LayoutMain} />
+   
         </Tab.Navigator>
 
       </NavigationContainer>

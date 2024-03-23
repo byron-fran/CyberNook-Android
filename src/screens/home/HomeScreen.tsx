@@ -1,11 +1,19 @@
-import { View, Text } from 'react-native'
-import SearchBar from '../../components/searchBar/SearchBar'
-import AppNavigator from '../../routes/Navigator'
+import { View, Text, Pressable } from 'react-native'
+import { StackRootParams } from '../../routes/Navigator'
+import { StackScreenProps } from '@react-navigation/stack'
 
-const HomeScreen = () => {
+
+interface Props extends  StackScreenProps<StackRootParams, 'HomeScreen'>{} 
+
+const HomeScreen = ({navigation} : Props) => {
 
     return (
-        <AppNavigator/>
+        <View>
+            <Text>Home</Text>
+            <Pressable onPress={() => navigation.navigate('LoginScreen')} style={{ backgroundColor : 'blue'}}>
+                <Text style={{ color : 'white'}}>Login</Text>
+            </Pressable>
+        </View>
 
     )
 

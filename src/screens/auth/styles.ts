@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const stylesAuth = StyleSheet.create({
     containerForm: {
-        marginTop: 150,
+        marginVertical: 150,
         borderColor: '#E0E0E0',
         width: '90%',
         borderWidth: 1,
