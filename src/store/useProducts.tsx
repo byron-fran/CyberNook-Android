@@ -5,6 +5,7 @@ export interface ProductsState {
     products : Product[],
     getProducts : () => Promise<Product[]>,
     isLoading : boolean,
+    getProductById : (id: string) => Promise<Product>
 
 }
 export const useProductsStore = create<ProductsState>((set, get) => ({
@@ -21,5 +22,8 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
     
         return data
     },
-
+    getProductById : async(id : string) => {
+        const {data} = await axios.get<Product>(`/store/product/${id}`)
+        return data
+    }
 }))

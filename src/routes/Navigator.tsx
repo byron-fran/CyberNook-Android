@@ -10,7 +10,7 @@ export type StackRootParams ={
     LoginScreen : undefined,
     RegisterScreen : undefined,
     HomeScreen : undefined,
-    ProductDetail : {product : Product}
+    ProductDetail : {id : string}
 }
 
 const Stack = createNativeStackNavigator<StackRootParams>()
