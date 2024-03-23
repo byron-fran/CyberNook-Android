@@ -1,12 +1,18 @@
 import { PropsWithChildren } from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-const LayoutMain = ({ children }: PropsWithChildren) => {
+
+const LayoutMain = ({ children } : PropsWithChildren) => {
+
+    const  navigate= useNavigation()
 
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text style={styles.title}>CyberNook</Text>
+                <Pressable onPress={() => navigate.navigate('HomeScreen' as never)} >
+                    <Text style={styles.title}>CyberNook</Text>
+                </Pressable>
                 <View style={styles.main}>
                     {children}
                 </View>
@@ -17,11 +23,11 @@ const LayoutMain = ({ children }: PropsWithChildren) => {
 }
 
 const styles = StyleSheet.create({
+    
     container: {
         backgroundColor: '#0854A5',
         flex: 1,
         paddingBottom: 10
-
 
     },
 
