@@ -52,7 +52,7 @@ const App = () => {
                 else if (route.name === 'FavoriteScreen') {
                   iconName = focused ? 'heart' : 'heart-outline'
                 }
-                return <Icon name={iconName} color={color} size={size} />
+                return <Icon name={iconName!} color={color} size={size} />
               }
             })}
           >

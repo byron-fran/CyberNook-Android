@@ -7,6 +7,7 @@ import { useNavigation,NavigatorScreenParams } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
 
 const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
+    
     const navigate  = useNavigation<StackNavigationProp<StackRootParams>>();
 
     const findProductMoreOffer = () => {

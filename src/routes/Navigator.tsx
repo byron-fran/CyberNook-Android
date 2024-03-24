@@ -1,16 +1,18 @@
 import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Product } from '../interfaces/products';
 import LoginScreen from '../screens/auth/LoginScreen'
 import RegisterScreen from '../screens/auth/Register'
 import HomeScreen from '../screens/home/HomeScreen';
-import { Product } from '../interfaces/products';
 import ProductDetail from '../screens/products/ProductDetail';
+import CategoryScreen from '../screens/category/CategoryScreen';
 
 export type StackRootParams ={
     LoginScreen : undefined,
     RegisterScreen : undefined,
     HomeScreen : undefined,
-    ProductDetail : {id : string}
+    ProductDetail : {id : string},
+    CategoryScreen : {category : string}
 }
 
 const Stack = createNativeStackNavigator<StackRootParams>()
@@ -25,6 +27,7 @@ const AppNavigator = () => {
             <Stack.Screen name='ProductDetail' component={ProductDetail}/>
             <Stack.Screen name='LoginScreen' component={LoginScreen}/>
             <Stack.Screen name='RegisterScreen' component={RegisterScreen}/>
+            <Stack.Screen name='CategoryScreen' component={CategoryScreen}/>
         </Stack.Navigator>
     )
 

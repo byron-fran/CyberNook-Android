@@ -27,9 +27,9 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
 
     useEffect(() => {
         if (isFocused) {
-          refetch();
+            refetch();
         }
-      }, [isFocused, refetch]);
+    }, [isFocused, refetch]);
 
     if (isLoading) return <Loading />
     if (!product) return null
@@ -56,7 +56,10 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                         </Select>
 
                         <Layout style={styles.sectionPrice}>
-                            <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
+                            {product.discount > 0 && (
+
+                                <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
+                            )}
                             <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))}</Text>
                         </Layout>
                     </Layout>
@@ -71,7 +74,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                     </Layout>
                     {/* Reviews */}
                     <Layout>
-                        <Reviews productId={product.id}/>
+                        <Reviews productId={product.id} />
                     </Layout>
                 </Layout>
             </Layout>
