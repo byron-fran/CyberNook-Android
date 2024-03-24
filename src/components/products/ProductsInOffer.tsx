@@ -8,7 +8,7 @@ import { StackRootParams } from '../../routes/Navigator';
 
 const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
     const navigate  = useNavigation<StackNavigationProp<StackRootParams>>();
-        
+
     const findProductMoreOffer = () => {
         if (products.length === 0) return null
         let productGreatestOffer = products[0]
@@ -60,7 +60,10 @@ const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
                             source={{ uri: item.image }}
                         />
                         <Text style={[styles.titleProduct, { textAlign: 'center', maxHeight: 100, height: 60 }]}>{item.name}</Text>
-                        <Pressable style={styles.btnAdd}>
+                        <Pressable 
+                            style={styles.btnAdd}
+                            onPress={() => navigate.navigate('ProductDetail', {id : item.id})}
+                            >
                             <Text style={[styles.textAdd, { textAlign: 'center' }]}>Save Up {item?.discount}%</Text>
                         </Pressable>
                     </View>

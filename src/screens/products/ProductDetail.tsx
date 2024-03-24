@@ -6,27 +6,35 @@ import Loading from '../../components/loading/Loading';
 import { Image, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { Layout, Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import SearchBar from '../../components/searchBar/SearchBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatQuantity } from '../../helpers/formatQuanity';
 import Icon from 'react-native-vector-icons/Ionicons'
+import Reviews from '../../components/reviews/Reviews';
+import { useIsFocused } from '@react-navigation/native';
 
 interface Props extends StackScreenProps<StackRootParams, 'ProductDetail'> { };
 
-const ProductDetail = ({ route: { params } }: Props) => {
+const ProductDetail = ({ route: { params }, navigation }: Props) => {
     const { id } = params;
     const { getProductById } = useProductsStore();
     const [selectedIndex, setSelectIndex] = useState<IndexPath | IndexPath[]>(new IndexPath(0));
-
-    const { isLoading, data: product } = useQuery({
+    const isFocused = useIsFocused();
+    const { isLoading, data: product, refetch } = useQuery({
         queryKey: ['product'],
         queryFn: async () => getProductById(id),
-        staleTime: 100 * 60 * 60
+        staleTime: 0
     });
+
+    useEffect(() => {
+        if (isFocused) {
+          refetch();
+        }
+      }, [isFocused, refetch]);
 
     if (isLoading) return <Loading />
     if (!product) return null
-    console.log(product);
-    
+
+
     return (
         <ScrollView>
             <SearchBar />
@@ -46,20 +54,24 @@ const ProductDetail = ({ route: { params } }: Props) => {
                                 <SelectItem key={Math.random().toString()} title={index + 1} />
                             ))}
                         </Select>
-                        
+
                         <Layout style={styles.sectionPrice}>
                             <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
                             <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))}</Text>
                         </Layout>
                     </Layout>
                     <Pressable style={styles.btnAdd}>
-                        <Icon name='cart-outline' color='#F97316' size={30}/>
+                        <Icon name='cart-outline' color='#F97316' size={30} />
                         <Text style={styles.textAdd}>Add to cart</Text>
                     </Pressable>
                     {/* Description of the product */}
                     <Layout>
-                            <Text style={styles.textDescription}>Description</Text>
-                            <Text>{product.description}</Text>
+                        <Text style={styles.textDescription}>Description</Text>
+                        <Text>{product.description}</Text>
+                    </Layout>
+                    {/* Reviews */}
+                    <Layout>
+                        <Reviews productId={product.id}/>
                     </Layout>
                 </Layout>
             </Layout>
@@ -74,7 +86,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         width: '90%',
         marginHorizontal: '5%',
-        
+
     },
     title: {
         textAlign: 'center',
@@ -96,36 +108,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '90%',
         marginHorizontal: '5%',
-        marginVertical : 25,
-        gap : 20,
-        alignItems : 'flex-start'
+        marginVertical: 25,
+        gap: 20,
+        alignItems: 'flex-start'
     },
     select: {
         width: 150,
-        borderWidth : 0,
-      
-    },
-    textSelect : {
-        fontSize : 17,
-        fontWeight : 'bold',
-        color : '#0854A5',
-        marginBottom : 4
+        borderWidth: 0,
 
     },
-    sectionPrice : {
+    textSelect: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: '#0854A5',
+        marginBottom: 4
+
+    },
+    sectionPrice: {
         width: 150,
 
-        justifyContent : 'center',
-        alignItems : 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
 
-      
+
 
     },
-    textNoDiscount : {
-        marginBottom : 5,
-        fontSize : 18,
-        color : '#EF4444',
-        textDecorationLine : 'line-through'
+    textNoDiscount: {
+        marginBottom: 5,
+        fontSize: 18,
+        color: '#EF4444',
+        textDecorationLine: 'line-through'
 
     },
     price: {
@@ -134,35 +146,35 @@ const styles = StyleSheet.create({
         fontSize: 20,
         backgroundColor: '#0854A5',
         borderRadius: 5,
-        width : '100%',
-        textAlign : 'center',
-        padding : 5,
+        width: '100%',
+        textAlign: 'center',
+        padding: 5,
 
 
     },
-    btnAdd : {
-        borderWidth : 1,
-        borderColor : '#F97316',
-        borderRadius : 5,
-        padding : 10,
-        marginVertical : 15,
-        flexDirection : 'row',
-        justifyContent : 'center',
-        gap : 20,
-        alignItems : 'center'
+    btnAdd: {
+        borderWidth: 1,
+        borderColor: '#F97316',
+        borderRadius: 5,
+        padding: 10,
+        marginVertical: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 20,
+        alignItems: 'center'
 
     },
-    textAdd : {
-        color : '#F97316',
-        textAlign : 'center',
-        fontSize : 20
+    textAdd: {
+        color: '#F97316',
+        textAlign: 'center',
+        fontSize: 20
     },
-    textDescription : {
-        fontSize : 20, 
-        fontWeight : 'bold',
-        color : '#000',
-        marginVertical : 15,
-        textAlign : 'center'
+    textDescription: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000',
+        marginVertical: 15,
+        textAlign: 'center'
     }
 })
 export default ProductDetail
