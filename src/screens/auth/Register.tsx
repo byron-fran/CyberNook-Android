@@ -16,12 +16,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
     const { register, errorRegister } = useAuthStore();
 
-    const [userInfo, setUserInfo] = useState<User>({
-        email: '',
-        phone: '',
-        password: '',
-        name: ''
-    });
+    const [userInfo, setUserInfo] = useState<User>({} as User);
 
     const onSubmit = async () => {
         const result = await register(userInfo);

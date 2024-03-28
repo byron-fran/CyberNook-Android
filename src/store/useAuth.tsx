@@ -13,7 +13,7 @@ export interface AuthResponse {
 
 export interface AuthState {
     token?: string,
-    user?: User,
+    user: User,
     status: AuthStatus
     login: (email: string, password: string) => Promise<boolean | undefined>,
     register : (user : User) => Promise<boolean | undefined>,
@@ -28,7 +28,7 @@ export interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
     token: undefined,
-    user: undefined,
+    user: {} as User,
     status: 'checking',
     errorLogin : '',
     errorRegister : '',
