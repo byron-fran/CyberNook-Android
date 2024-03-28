@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         flex: 1 ,
         width : '90%', 
         marginHorizontal : '5%', 
-        marginBottom : 20
+        marginBottom : 50
     },
     titleH1 : {
         textAlign : 'center', 

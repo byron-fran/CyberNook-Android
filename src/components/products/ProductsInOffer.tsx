@@ -3,37 +3,38 @@ import { Product } from '../../interfaces/products';
 import { FC } from 'react';
 import { Text } from '@ui-kitten/components';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation,NavigatorScreenParams } from '@react-navigation/native';
+import { useNavigation, NavigatorScreenParams } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
 
-const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
+const ProductsInOffer: FC<{ products: Product[] }> = ({ products = [] }) => {
+
+    const navigate = useNavigation<StackNavigationProp<StackRootParams>>();
     
-    const navigate  = useNavigation<StackNavigationProp<StackRootParams>>();
+    // const findProductMoreOffer = () => {
+    //     if (products.length === 0) return null
+    //     let productGreatestOffer = products[0]
 
-    const findProductMoreOffer = () => {
-        if (products.length === 0) return null
-        let productGreatestOffer = products[0]
+    //     products.forEach(product => {
+    //         if (product.discount > productGreatestOffer.discount) {
+    //             productGreatestOffer = product
 
-        products.forEach(product => {
-            if (product.discount > productGreatestOffer.discount) {
-                productGreatestOffer = product
+    //         }
+    //     })
+    //     return productGreatestOffer
+    // };
+    // const productOne = findProductMoreOffer();
 
-            }
-        })
-        return productGreatestOffer
-    };
-    const productOne = findProductMoreOffer();
-
-    const productsInOffer = products.filter(product => product.discount > 0 && product.discount <= 10).slice(0, 10);
+    // const productsInOffer = products.filter(product => product.discount > 0 && product.discount <= 10).slice(0, 10);
 
 
-    if (productOne === null) return null
+    //if (productOne === null) return null
 
 
     return (
         <View style={{ flex: 1, height: '100%' }}>
+            <Text>
 
-            <View style={styles.card}>
+                {/* <View style={styles.card}>
                 <Image
                     style={styles.imgProduct}
                     source={{ uri: productOne.image }}
@@ -51,7 +52,7 @@ const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
                 </Pressable>
             </View>
             {/* products in offer by 10 percent(%) */}
-            <FlatList
+                {/* <FlatList
                 style={{ marginLeft : 20}}
                 data={productsInOffer}
                 renderItem={({ item }) => (
@@ -73,8 +74,8 @@ const ProductsInOffer: FC<{ products: Product[] }> = ({ products }) => {
                 horizontal={true}
                 ItemSeparatorComponent={() => <View style={{ width: 13 }}></View>}
 
-            />
-
+            /> */}
+            </Text>
         </View>
 
     )

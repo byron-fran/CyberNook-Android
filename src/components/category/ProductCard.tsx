@@ -31,7 +31,9 @@ const ProductCard: FC<Props> = ({ product, iconName }) => {
             <Layout
                 style={style.sectionInfo}
             >
-                <Text style={style.textProduct}>
+                <Text 
+                numberOfLines={1}
+                style={style.textProduct}>
                     {product.name}
                 </Text>
                 {/* Section Prices */}
@@ -78,12 +80,13 @@ const style = StyleSheet.create({
     card: {
         flexDirection: 'row',
         gap: 20,
-        marginVertical: 15,
+        marginVertical: 25,
+        alignItems : 'flex-start'
 
     },
     image: {
         width: '100%',
-        height: 150,
+        height: 'auto',
         objectFit: 'contain',
         flex: 1
     },

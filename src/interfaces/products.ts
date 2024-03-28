@@ -2,6 +2,7 @@ import { Review } from "./Review"
 import { User } from "./User"
 
 export interface Product {
+
     id: string,
     name: string,
     quantity: number,
@@ -13,11 +14,11 @@ export interface Product {
     unitPrice?: number,
     mark?: string,
     ProductId?:  string,
-    Reviews?: Review[]
+    Reviews?: Review[],
     description?: string,
     discount: number,
     createdAt?: string,
-    favorites? : User[]
+    favorites? : User[],
     // Spec?: Specs,
 };
 

@@ -43,6 +43,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                     <Text style={styles.title}>{product?.name}</Text>
                     <Image style={styles.image} source={{ uri: product.image }} />
                     <Layout style={styles.section}>
+                        {/* Selects quantity */}
                         <Select
                             style={styles.select}
                             label={() => <Text style={styles.textSelect}>Quantity</Text>}
@@ -60,7 +61,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
 
                                 <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
                             )}
-                            <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))}</Text>
+                            <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))} </Text>
                         </Layout>
                     </Layout>
                     <Pressable style={styles.btnAdd}>
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '5%',
         marginVertical: 25,
         gap: 20,
-        alignItems: 'flex-start'
+        alignItems: 'flex-end'
     },
     select: {
         width: 150,
@@ -128,11 +129,11 @@ const styles = StyleSheet.create({
 
     },
     sectionPrice: {
-        width: 150,
-
-        justifyContent: 'center',
-        alignItems: 'center',
-
+       
+        padding :3,        width: 150,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        height : 'auto'
 
 
     },

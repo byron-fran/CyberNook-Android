@@ -1,13 +1,13 @@
 import { Review } from "./Review";
 
 export interface User {
-    id: string
+    id?: string
     name: string,
     email: string,
-    phone?: string | number,
-    password: string,
+    phone?: string ,
+    password?: string,
     // Orders?: Order[],
     // Addresses?: Address[],
     Reviews?: Review[],
-    isAdmin: boolean,
+    isAdmin?: boolean ,
 }
