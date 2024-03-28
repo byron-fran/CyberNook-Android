@@ -14,12 +14,13 @@ const MenuItemsOverFlow = () => {
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const [selectedIndex, setSelectedIndex] = useState<IndexPath>(new IndexPath(0));
     const [visible, setVisible] = useState(false);
+
     const onItemSelect = (index: any): void => {
         setSelectedIndex(index);
         setVisible(false);
     };
 
-    const  test = 'hola'
+const d = 'sdjgnsfd'
     return (
 
         <OverflowMenu
