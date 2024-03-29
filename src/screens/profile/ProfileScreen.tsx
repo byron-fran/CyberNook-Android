@@ -6,15 +6,18 @@ import { useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 const ProfileScreen = () => {
-    const { user } = useAuthStore();
+    const { user , updateProfile} = useAuthStore();
     const [infoUser, setInfoUser] = useState(user);
     //Profile states
     const [disabledName, setDisabledName] = useState(true);
     const [disabledEmail, setDisabledEmail] = useState(true);
     const [disabledPhone, setDisabledPhone] = useState(true);
-    
-    const onSubmit = () => {
-        //console.log(infoUser)
+
+    const onSubmit = async () => {
+        await updateProfile(infoUser)
+        setDisabledEmail(true)
+        setDisabledName(true)
+        setDisabledPhone(true)
     }
     return (
         <LayoutMain>

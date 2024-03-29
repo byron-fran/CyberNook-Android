@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }: Props) => {
     return (
         <LayoutMain>
             <View style={style.containerForm}>
-                <Text style={style.errorAuth}>{errorLogin.length > 0 && errorLogin}</Text>
+                <Text style={style.errorAuth}>{errorLogin && errorLogin}</Text>
                 {/* Card Input */}
                 <View style={style.inputCard}>
                     <Text style={style.labelText}>Email</Text>

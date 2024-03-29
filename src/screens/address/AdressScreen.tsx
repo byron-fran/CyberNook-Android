@@ -2,15 +2,16 @@ import { Pressable, StyleSheet } from 'react-native';
 import LayoutMain from '../../layouts/LayoutMain'
 import { useAuthStore } from '../../store/useAuth';
 import { Text, Layout, Input, Button } from '@ui-kitten/components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Address } from '../../interfaces/Address';
+import { Address as AddressInterface } from '../../interfaces/Address';
+import { useAddressStore } from '../../store/useAddress';
 
 const AddressScreen = () => {
 
-    const { user: { Address } } = useAuthStore();
-    const [infoAddress, setInfoAddress] = useState( Address)
+    const {getAddress, Address, updateAddress, deleteAddress, createAddress} = useAddressStore()
 
+    const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address)
     //Address states
     const [disabledStreet, setDisabledStreet] = useState(true);
     const [disabledExteriorNumber, setDisabledExteriorNumber] = useState(true);
@@ -18,14 +19,31 @@ const AddressScreen = () => {
     const [disabledCity, setDisabledCity] = useState(true);
     const [disabledCountry, setDisabledCountry] = useState(true);
 
-    const onSubmit = () => {
-       // console.log(infoAddress)
-    };
+    useEffect(() => {
+        getAddress();
 
+
+    }, []);
+
+    
+    
+    const onSubmit = async  () => {
+       if(Address.id){
+
+        await updateAddress(Address.id, infoAddress)
+       }
+       else {
+        await createAddress(infoAddress)
+       }
+    };
+    
     return (
+
         <LayoutMain>
 
             <Layout style={styles.container}>
+
+
                 {/* Field input Street */}
                 <Layout style={styles.inputCard}>
                     <Text style={styles.textLabel}>Street</Text>
@@ -33,7 +51,7 @@ const AddressScreen = () => {
                         value={infoAddress?.street}
                         onChangeText={(value) => {
                             setInfoAddress({ ...infoAddress, street: value })
-                        }} 
+                        }}
 
                         disabled={disabledStreet}
                         accessoryRight={() => <Pressable onPress={() => setDisabledStreet(!disabledStreet)}><Icon name='pencil-outline' size={20} /></Pressable>}
@@ -98,12 +116,15 @@ const AddressScreen = () => {
 
                 </Layout>
                 <Button
-                    onPress={onSubmit} 
+                    onPress={onSubmit}
                     style={styles.btn}
-                    >
-                    <Text style={styles.btnText}> {Object.values(infoAddress).length > 0 ? 'Update Address' : 'Create Address'}</Text>
-                   
+                >
+                    <Text style={styles.btnText}> {Address.id ? 'Update Address' : 'Create Address'}</Text>
+
                 </Button>
+
+
+
             </Layout>
         </LayoutMain>
 

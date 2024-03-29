@@ -19,6 +19,7 @@ export interface AuthState {
     register : (user : User) => Promise<boolean | undefined>,
     checkStatus: () => Promise<boolean | undefined>,
     logout: () => Promise<void >,
+    updateProfile  :  (user : User) => Promise<void>,
     //Error Auth
     errorLogin : string,
     errorRegister : string
@@ -112,6 +113,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             token: undefined
         })
 
+    },
+    updateProfile : async (user : User) => {
+        try {
+            const {data} = await axios.put('/profile', {...user});
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
     },
     checkStatus: async () => {
         try {
