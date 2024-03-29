@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
 import LayoutMain from '../../layouts/LayoutMain'
 import { useAuthStore } from '../../store/useAuth';
 import { Text, Layout, Input, Button } from '@ui-kitten/components';
@@ -6,12 +6,26 @@ import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Address as AddressInterface } from '../../interfaces/Address';
 import { useAddressStore } from '../../store/useAddress';
+import useToastAnimation from '../../hooks/animations/useToast';
 
 const AddressScreen = () => {
 
-    const { getAddress, Address, updateAddress, deleteAddress, createAddress } = useAddressStore()
-    // const { user: { Address: ab } } = useAuthStore()
-    const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address )
+    const {
+        getAddress,
+        Address,
+        updateAddress,
+        deleteAddress,
+        createAddress,
+        isLoading,
+        success } = useAddressStore();
+    const { CustomToast, showToast } = useToastAnimation(
+        {
+            type: 'success',
+            text1: 'Your address was updated correctly',
+            iconName: 'checkmark-outline',
+        }
+    )
+    const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address)
     //Address states
     const [disabledStreet, setDisabledStreet] = useState(true);
     const [disabledExteriorNumber, setDisabledExteriorNumber] = useState(true);
@@ -30,6 +44,12 @@ const AddressScreen = () => {
 
     }, [getAddress]);
 
+    useEffect(() => {
+        if (success) {
+            showToast();
+        }
+    }, [success, showToast]);
+
 
     const onSubmit = async () => {
         if (Address.id) {
@@ -38,15 +58,33 @@ const AddressScreen = () => {
         }
         else {
             await createAddress(infoAddress)
-        }
+        };
+        setDisabledCity(true)
+        setDisabledCountry(true)
+        setDisabledExteriorNumber(true)
+        setDisabledStreet(true)
+        setDisabledZIPCode(true)
     };
 
     return (
 
         <LayoutMain>
-
+            <CustomToast />
             <Layout style={styles.container}>
+                {isLoading && (
 
+                    <ActivityIndicator
+                        style={{
+                            position: 'absolute',
+                            left: 0, right: 0,
+                            top: 0, bottom: 0,
+                            zIndex: 100
+                        }}
+                        size={40}
+                        color='#0854A5'
+
+                    />
+                )}
 
                 {/* Field input Street */}
                 <Layout style={styles.inputCard}>
@@ -126,9 +164,6 @@ const AddressScreen = () => {
                     <Text style={styles.btnText}> {Address.id ? 'Update Address' : 'Create Address'}</Text>
 
                 </Button>
-
-
-
             </Layout>
         </LayoutMain>
 
