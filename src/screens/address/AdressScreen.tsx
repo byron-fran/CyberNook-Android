@@ -9,9 +9,9 @@ import { useAddressStore } from '../../store/useAddress';
 
 const AddressScreen = () => {
 
-    const {getAddress, Address, updateAddress, deleteAddress, createAddress} = useAddressStore()
-
-    const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address)
+    const { getAddress, Address, updateAddress, deleteAddress, createAddress } = useAddressStore()
+    // const { user: { Address: ab } } = useAuthStore()
+    const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address )
     //Address states
     const [disabledStreet, setDisabledStreet] = useState(true);
     const [disabledExteriorNumber, setDisabledExteriorNumber] = useState(true);
@@ -20,23 +20,27 @@ const AddressScreen = () => {
     const [disabledCountry, setDisabledCountry] = useState(true);
 
     useEffect(() => {
-        getAddress();
+        getAddress()
+            .then((result: AddressInterface) => {
+                if (result) {
+                    setInfoAddress(result);
+                    return
+                }
+            })
+
+    }, [getAddress]);
 
 
-    }, []);
+    const onSubmit = async () => {
+        if (Address.id) {
 
-    
-    
-    const onSubmit = async  () => {
-       if(Address.id){
-
-        await updateAddress(Address.id, infoAddress)
-       }
-       else {
-        await createAddress(infoAddress)
-       }
+            await updateAddress(Address.id, infoAddress)
+        }
+        else {
+            await createAddress(infoAddress)
+        }
     };
-    
+
     return (
 
         <LayoutMain>

@@ -7,7 +7,7 @@ import { Address } from "../interfaces/Address";
 
 export interface AddressState {
     Address: Address,
-    getAddress: () => Promise<void>,
+    getAddress: () => Promise<Address>,
     createAddress: (address: Address) => Promise<void>,
     updateAddress: (id: string, address: Address) => Promise<void>,
     deleteAddress: (id: string) => Promise<void>
@@ -31,6 +31,7 @@ export const useAddressStore = create<AddressState>((set, get) => ({
                 ...state,
                 Address: data
             }))
+            return data
           
         } catch (error: unknown) {
             console.log(error,)
