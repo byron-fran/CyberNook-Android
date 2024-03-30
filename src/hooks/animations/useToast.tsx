@@ -1,10 +1,11 @@
 import { JSX, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
-import Toast, { BaseToast, BaseToastProps } from 'react-native-toast-message';
-
+import Toast, { BaseToast, BaseToastProps, ToastType } from 'react-native-toast-message';
+import { Layout } from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
 
 interface Props {
-    type: string,
+    type:  ToastType,
     text1?: string,
     text2?: string,
     iconName : string,
@@ -41,12 +42,15 @@ const useToastAnimation = ({
         )
     }
     const CustomToast = () => (
-        <Toast
-            position='top'
-            topOffset={30}
-            config={toastConfig}
-            
-        />
+        <Layout style={styles.containerToast}>
+
+            <Toast
+                position='top'
+                topOffset={30}
+                config={toastConfig}
+                
+            />
+        </Layout>
     )
     return {
         CustomToast,
@@ -54,5 +58,16 @@ const useToastAnimation = ({
     }
 
 }
-
+const styles = StyleSheet.create({
+    containerToast : {
+        position: 'absolute', 
+        left: 0, 
+        right: 0, 
+        top: 40, 
+        flex: 1, 
+        width: '100%', 
+        zIndex: 100
+    }
+    
+})
 export default useToastAnimation

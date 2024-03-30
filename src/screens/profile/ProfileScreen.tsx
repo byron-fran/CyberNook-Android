@@ -8,7 +8,7 @@ import useToastAnimation from '../../hooks/animations/useToast';
 
 
 const ProfileScreen = () => {
-    const { user, updateProfile, success, isLoading, checkStatus} = useAuthStore();
+    const { user, updateProfile, success, isLoading, checkStatus } = useAuthStore();
     const [infoUser, setInfoUser] = useState(user);
     //Profile states
     const [disabledName, setDisabledName] = useState(true);
@@ -40,78 +40,80 @@ const ProfileScreen = () => {
     }, [success, showToast]);
 
     return (
-        <LayoutMain>
-           <CustomToast/>
-           
-            <Layout style={styles.container}>
-                {isLoading && (
+        <>
+            <CustomToast />
+            <LayoutMain>
 
-                    <ActivityIndicator
-                        style={{
-                            position: 'absolute',
-                            left: 0, right: 0,
-                            top: 0, bottom: 0,
-                            zIndex: 100
-                        }}
-                        size={40}
-                        color='#0854A5'
+                <Layout style={styles.container}>
+                    {isLoading && (
 
-                    />
-                )}
+                        <ActivityIndicator
+                            style={{
+                                position: 'absolute',
+                                left: 0, right: 0,
+                                top: 0, bottom: 0,
+                                zIndex: 100
+                            }}
+                            size={40}
+                            color='#0854A5'
 
-                {/* Field input */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Name</Text>
-                    <Input
-                        value={infoUser.name}
-                        onChangeText={(value) => {
-                            setInfoUser({ ...infoUser, name: value })
-                        }}
+                        />
+                    )}
 
-                        disabled={disabledName}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledName(!disabledName)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
+                    {/* Field input */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Name</Text>
+                        <Input
+                            value={infoUser.name}
+                            onChangeText={(value) => {
+                                setInfoUser({ ...infoUser, name: value })
+                            }}
+
+                            disabled={disabledName}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledName(!disabledName)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
 
 
+                    </Layout>
+                    {/* Field input */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Email</Text>
+                        <Input
+                            value={infoUser.email}
+                            onChangeText={(value) => {
+                                setInfoUser({ ...infoUser, email: value })
+                            }}
+                            disabled={disabledEmail}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledEmail(!disabledEmail)}><Icon name='pencil-outline' size={20} /></Pressable>}
+
+
+                        />
+
+                    </Layout>
+                    {/* Field input */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Phone</Text>
+                        <Input
+                            value={infoUser.phone}
+                            onChangeText={(value) => {
+                                setInfoUser({ ...infoUser, phone: value })
+                            }}
+                            disabled={disabledPhone}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledPhone(!disabledPhone)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
+
+                    </Layout>
+                    <Button
+                        onPress={onSubmit}
+                        style={styles.btn}
+                    >
+                        <Text style={styles.btnText}> Update profile</Text>
+
+                    </Button>
+                    {/*  */}
                 </Layout>
-                {/* Field input */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Email</Text>
-                    <Input
-                        value={infoUser.email}
-                        onChangeText={(value) => {
-                            setInfoUser({ ...infoUser, email: value })
-                        }}
-                        disabled={disabledEmail}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledEmail(!disabledEmail)}><Icon name='pencil-outline' size={20} /></Pressable>}
-
-
-                    />
-
-                </Layout>
-                {/* Field input */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Phone</Text>
-                    <Input
-                        value={infoUser.phone}
-                        onChangeText={(value) => {
-                            setInfoUser({ ...infoUser, phone: value })
-                        }}
-                        disabled={disabledPhone}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledPhone(!disabledPhone)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
-
-                </Layout>
-                <Button
-                    onPress={onSubmit}
-                    style={styles.btn}
-                >
-                    <Text style={styles.btnText}> Update profile</Text>
-
-                </Button>
-                {/*  */}
-            </Layout>
-        </LayoutMain>
+            </LayoutMain>
+        </>
 
     )
 

@@ -29,12 +29,12 @@ const BottomTabs = () => {
 
                     let iconName;
                     color = '#0854A5'
-                    size = 25
+                    size = 30
                     if (route.name === 'AppNavigator') {
                         iconName = focused ? 'home' : 'home-outline'
                     }
                     else if (route.name === 'CartScreen') {
-                        iconName = focused ? 'bag-handle' : 'bag-handle-outline'
+                        iconName = focused ? 'cart' : 'cart-outline'
                     }
                     else if (route.name === 'FavoriteScreen') {
                         iconName = focused ? 'heart' : 'heart-outline'

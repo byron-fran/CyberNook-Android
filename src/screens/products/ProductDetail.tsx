@@ -1,85 +1,146 @@
-import { useQuery } from '@tanstack/react-query';
 import { StackRootParams } from '../../routes/Navigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useProductsStore } from '../../store/useProducts';
 import Loading from '../../components/loading/Loading';
-import { Image, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { Layout, Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import SearchBar from '../../components/searchBar/SearchBar';
 import { useEffect, useState } from 'react';
 import { formatQuantity } from '../../helpers/formatQuanity';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Reviews from '../../components/reviews/Reviews';
-import { useIsFocused } from '@react-navigation/native';
+import { Order, useCartStore } from '../../store/cart/useCart';
+import { useAuthStore } from '../../store/useAuth';
+import { Product } from '../../interfaces/products';
+import useToastAnimation from '../../hooks/animations/useToast';
+import { createOrder } from '../../config/adapters/createOrder';
 
 interface Props extends StackScreenProps<StackRootParams, 'ProductDetail'> { };
 
 const ProductDetail = ({ route: { params }, navigation }: Props) => {
     const { id } = params;
-    const { getProductById } = useProductsStore();
+    const { status } = useAuthStore()
+    const { getProductById, isLoading } = useProductsStore();
     const [selectedIndex, setSelectIndex] = useState<IndexPath | IndexPath[]>(new IndexPath(0));
-    const isFocused = useIsFocused();
-    const { isLoading, data: product, refetch } = useQuery({
-        queryKey: ['product'],
-        queryFn: async () => getProductById(id),
-        staleTime: 0
-    });
+    const [product, setProduct] = useState<Product>({} as Product)
+    const { addToCart, updateOrderById, cart, isLoading: loading, success } = useCartStore();
+
+    const { CustomToast, showToast } = useToastAnimation(
+        {
+            type: 'success',
+            text1: 'Add to cart success',
+            iconName: 'cart-outline',
+            colorText: '#F97316',
+            borderColor: '#F97316'
+        }
+    )
 
     useEffect(() => {
-        if (isFocused) {
-            refetch();
-        }
-    }, [isFocused, refetch]);
+        getProductById(id).then((data: Product) => {
+            if (data) {
+                setProduct(data);
+                return
+            }
+        });
 
-    if (isLoading) return <Loading />
-    if (!product) return null
+    }, [])
+
+    useEffect(() => {
+        if (success) {
+            showToast()
+        }
+    }, [showToast, success]);
+
+    const handleAddToCart = async (): Promise<void> => {
+
+        const quantity = Number(selectedIndex.toString());
+
+        const order = createOrder(product, quantity, id);
+
+        const orderFind = cart.find(order => order.ProductId === id);
+
+        if (orderFind) {
+
+            await updateOrderById(orderFind.id!, order)
+        }
+        else {
+
+            await addToCart(order)
+        }
+    }
 
 
     return (
-        <ScrollView>
-            <SearchBar />
-            <Layout style={styles.container}>
-                <Layout style={styles.card}>
-                    <Text style={styles.title}>{product?.name}</Text>
-                    <Image style={styles.image} source={{ uri: product.image }} />
-                    <Layout style={styles.section}>
-                        {/* Selects quantity */}
-                        <Select
-                            style={styles.select}
-                            label={() => <Text style={styles.textSelect}>Quantity</Text>}
-                            value={selectedIndex.toString()}
-                            selectedIndex={selectedIndex}
-                            onSelect={(index) => setSelectIndex(index)}
-                        >
-                            {Array.from({ length: product.stock }, (_, index) => (
-                                <SelectItem key={Math.random().toString()} title={index + 1} />
-                            ))}
-                        </Select>
+        <>
+            <CustomToast />
+            <ScrollView>
+                <SearchBar />
+                {isLoading || product.image === undefined ?
+                    <Loading heightContainer={500} />
+                    : (
+                        <Layout style={styles.container}>
+                            <Layout style={styles.card}>
+                                <Text style={styles.title}>{product?.name}</Text>
 
-                        <Layout style={styles.sectionPrice}>
-                            {product.discount > 0 && (
+                                <Image style={styles.image} source={{ uri: product.image }} />
 
-                                <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
-                            )}
-                            <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))} </Text>
+                                <Layout style={styles.section}>
+                                    {/* Selects quantity */}
+                                    <Select
+                                        style={styles.select}
+                                        label={() => <Text style={styles.textSelect}>Quantity</Text>}
+                                        value={selectedIndex.toString()}
+                                        selectedIndex={selectedIndex}
+                                        onSelect={(index: IndexPath[] | IndexPath) => setSelectIndex(index)}
+                                    >
+                                        {Array.from({ length: product.stock! }, (_, index) => (
+                                            <SelectItem key={Math.random().toString()} title={index + 1} />
+                                        ))}
+                                    </Select>
+
+                                    <Layout style={styles.sectionPrice}>
+                                        {product.discount > 0 && (
+
+                                            <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
+                                        )}
+                                        <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))} </Text>
+                                    </Layout>
+                                </Layout>
+                                <Pressable
+                                    style={[styles.btnAdd,]}
+                                    onPress={() => {
+                                        if (status === 'unauthenticated') {
+                                            navigation.navigate('LoginScreen')
+                                            return
+                                        }
+                                        handleAddToCart()
+                                    }}
+                                    disabled={loading}
+                                >
+                                    {loading ? (
+                                        <ActivityIndicator color='#F97316' size={30} />
+                                    ) : <>
+
+                                        <Icon name='cart-outline' color='#F97316' size={30} />
+                                        <Text style={styles.textAdd}>Add to cart</Text>
+                                    </>}
+                                </Pressable>
+                                {/* Description of the product */}
+                                <Layout>
+                                    <Text style={styles.textDescription}>Description</Text>
+                                    <Text>{product.description}</Text>
+                                </Layout>
+                                {/* Reviews */}
+                                <Layout>
+                                    <Reviews productId={product.id!} />
+                                </Layout>
+                            </Layout>
                         </Layout>
-                    </Layout>
-                    <Pressable style={styles.btnAdd}>
-                        <Icon name='cart-outline' color='#F97316' size={30} />
-                        <Text style={styles.textAdd}>Add to cart</Text>
-                    </Pressable>
-                    {/* Description of the product */}
-                    <Layout>
-                        <Text style={styles.textDescription}>Description</Text>
-                        <Text>{product.description}</Text>
-                    </Layout>
-                    {/* Reviews */}
-                    <Layout>
-                        <Reviews productId={product.id} />
-                    </Layout>
-                </Layout>
-            </Layout>
-        </ScrollView>
+                    )
+                }
+
+            </ScrollView>
+        </>
 
     )
 
@@ -129,11 +190,11 @@ const styles = StyleSheet.create({
 
     },
     sectionPrice: {
-       
-        padding :3,        width: 150,
+
+        padding: 3, width: 150,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        height : 'auto'
+        height: 'auto'
 
 
     },

@@ -67,105 +67,106 @@ const AddressScreen = () => {
     };
 
     return (
-
-        <LayoutMain>
+        <>
             <CustomToast />
-            <Layout style={styles.container}>
-                {isLoading && (
+            <LayoutMain>
+                <Layout style={styles.container}>
+                    {isLoading && (
 
-                    <ActivityIndicator
-                        style={{
-                            position: 'absolute',
-                            left: 0, right: 0,
-                            top: 0, bottom: 0,
-                            zIndex: 100
-                        }}
-                        size={40}
-                        color='#0854A5'
+                        <ActivityIndicator
+                            style={{
+                                position: 'absolute',
+                                left: 0, right: 0,
+                                top: 0, bottom: 0,
+                                zIndex: 100
+                            }}
+                            size={40}
+                            color='#0854A5'
 
-                    />
-                )}
+                        />
+                    )}
 
-                {/* Field input Street */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Street</Text>
-                    <Input
-                        value={infoAddress?.street}
-                        onChangeText={(value) => {
-                            setInfoAddress({ ...infoAddress, street: value })
-                        }}
+                    {/* Field input Street */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Street</Text>
+                        <Input
+                            value={infoAddress?.street}
+                            onChangeText={(value) => {
+                                setInfoAddress({ ...infoAddress, street: value })
+                            }}
 
-                        disabled={disabledStreet}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledStreet(!disabledStreet)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
+                            disabled={disabledStreet}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledStreet(!disabledStreet)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
 
+                    </Layout>
+                    {/* Field input Interior number */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Exterior number</Text>
+                        <Input
+                            value={infoAddress.exteriorNumber.toString()}
+                            keyboardType='numeric'
+                            onChangeText={(value) => {
+                                setInfoAddress({ ...infoAddress, exteriorNumber: value })
+                            }}
+
+                            disabled={disabledExteriorNumber}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledExteriorNumber(!disabledExteriorNumber)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
+
+                    </Layout>
+                    {/* Field input Postal code */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Postal Code</Text>
+                        <Input
+                            value={infoAddress.postalCode.toString()}
+                            onChangeText={(value) => {
+                                setInfoAddress({ ...infoAddress, postalCode: value })
+                            }}
+
+                            disabled={disabledCodeZIP}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledZIPCode(!disabledCodeZIP)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
+
+                    </Layout>
+                    {/* Field input Street */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>City</Text>
+                        <Input
+                            value={infoAddress?.city}
+                            onChangeText={(value) => {
+                                setInfoAddress({ ...infoAddress, city: value })
+                            }}
+
+                            disabled={disabledCity}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledCity(!disabledCity)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
+
+                    </Layout>
+                    {/* Field input Street */}
+                    <Layout style={styles.inputCard}>
+                        <Text style={styles.textLabel}>Country</Text>
+                        <Input
+                            value={infoAddress?.country}
+                            onChangeText={(value) => {
+                                setInfoAddress({ ...infoAddress, country: value })
+                            }}
+
+                            disabled={disabledCountry}
+                            accessoryRight={() => <Pressable onPress={() => setDisabledCountry(!disabledCountry)}><Icon name='pencil-outline' size={20} /></Pressable>}
+                        />
+
+                    </Layout>
+                    <Button
+                        onPress={onSubmit}
+                        style={styles.btn}
+                    >
+                        <Text style={styles.btnText}> {Address.id ? 'Update Address' : 'Create Address'}</Text>
+
+                    </Button>
                 </Layout>
-                {/* Field input Interior number */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Exterior number</Text>
-                    <Input
-                        value={infoAddress.exteriorNumber.toString()}
-                        keyboardType='numeric'
-                        onChangeText={(value) => {
-                            setInfoAddress({ ...infoAddress, exteriorNumber: value })
-                        }}
-
-                        disabled={disabledExteriorNumber}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledExteriorNumber(!disabledExteriorNumber)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
-
-                </Layout>
-                {/* Field input Postal code */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Postal Code</Text>
-                    <Input
-                        value={infoAddress.postalCode.toString()}
-                        onChangeText={(value) => {
-                            setInfoAddress({ ...infoAddress, postalCode: value })
-                        }}
-
-                        disabled={disabledCodeZIP}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledZIPCode(!disabledCodeZIP)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
-
-                </Layout>
-                {/* Field input Street */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>City</Text>
-                    <Input
-                        value={infoAddress?.city}
-                        onChangeText={(value) => {
-                            setInfoAddress({ ...infoAddress, city: value })
-                        }}
-
-                        disabled={disabledCity}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledCity(!disabledCity)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
-
-                </Layout>
-                {/* Field input Street */}
-                <Layout style={styles.inputCard}>
-                    <Text style={styles.textLabel}>Country</Text>
-                    <Input
-                        value={infoAddress?.country}
-                        onChangeText={(value) => {
-                            setInfoAddress({ ...infoAddress, country: value })
-                        }}
-
-                        disabled={disabledCountry}
-                        accessoryRight={() => <Pressable onPress={() => setDisabledCountry(!disabledCountry)}><Icon name='pencil-outline' size={20} /></Pressable>}
-                    />
-
-                </Layout>
-                <Button
-                    onPress={onSubmit}
-                    style={styles.btn}
-                >
-                    <Text style={styles.btnText}> {Address.id ? 'Update Address' : 'Create Address'}</Text>
-
-                </Button>
-            </Layout>
-        </LayoutMain>
+            </LayoutMain>
+        </>
 
     )
 

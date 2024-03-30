@@ -3,14 +3,14 @@ import { User } from "./User"
 
 export interface Product {
 
-    id: string,
+    id?: string,
     name: string,
     quantity: number,
     price: number,
     image: string,
     paid?: boolean
     category: string,
-    stock: number,
+    stock?: number,
     unitPrice?: number,
     mark?: string,
     ProductId?:  string,
@@ -19,6 +19,7 @@ export interface Product {
     discount: number,
     createdAt?: string,
     favorites? : User[],
+    UserId? : string
     // Spec?: Specs,
 };
 

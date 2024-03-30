@@ -1,4 +1,4 @@
-import {  ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { StackRootParams } from '../../routes/Navigator'
 import SearchBar from '../../components/searchBar/SearchBar'
@@ -7,10 +7,22 @@ import { useEffect, useState } from 'react'
 import ProductCard from '../../components/category/ProductCard'
 import { Product } from '../../interfaces/products'
 import { Layout, Text } from '@ui-kitten/components'
+import useToastAnimation from '../../hooks/animations/useToast'
+import { useCartStore } from '../../store/cart/useCart'
 
 interface Props extends StackScreenProps<StackRootParams, 'CategoryScreen'> { }
 
 const CategoryScreen = ({ route: { params } }: Props) => {
+    const { success} = useCartStore()
+    const { CustomToast, showToast } = useToastAnimation(
+        {
+            type: 'success',
+            text1: 'Add to cart success',
+            iconName: 'cart-outline',
+            colorText: '#F97316',
+            borderColor: '#F97316'
+        }
+    )
     const [productsByCategory, setProductsByCategory] = useState<Product[]>([])
     const { category } = params;
 
@@ -18,29 +30,36 @@ const CategoryScreen = ({ route: { params } }: Props) => {
 
         getProductsByCategory(category)
             .then((result: Product[]) => {
-            setProductsByCategory(result)
+                setProductsByCategory(result)
             })
-            .catch((error : unknown) => {
-                throw new Error(error as string)
-            })
+        
 
     }, []);
-   
+
+    useEffect(() => {
+        if (success) {
+            showToast()
+        }
+    }, [showToast, success]);
+
     return (
-        <ScrollView>
-            <SearchBar />
-            <Layout>
-                { productsByCategory.length > 0 || productsByCategory !== undefined ? (
-                    <Layout>
-                        {productsByCategory.map(product => (
-                            <ProductCard product={product} iconName='heart-outline' key={product.id}/>
-                        ))}
-                    </Layout>
-                ) : <Layout>
+        <>
+            <CustomToast />
+            <ScrollView>
+                <SearchBar />
+                <Layout>
+                    {productsByCategory.length > 0 || productsByCategory !== undefined ? (
+                        <Layout>
+                            {productsByCategory.map(product => (
+                                <ProductCard product={product} iconName='heart-outline' key={product.id} />
+                            ))}
+                        </Layout>
+                    ) : <Layout>
                         <Text>Cargando...</Text>
                     </Layout>}
-            </Layout>
-        </ScrollView>
+                </Layout>
+            </ScrollView>
+        </>
 
     )
 

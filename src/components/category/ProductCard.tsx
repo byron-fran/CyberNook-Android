@@ -1,78 +1,106 @@
 import { Product } from '../../interfaces/products'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Layout, Text } from '@ui-kitten/components'
-import { Image, Pressable, StyleSheet } from 'react-native'
+import { ActivityIndicator, Image, Pressable, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { formatQuantity } from '../../helpers/formatQuanity'
 import { StackRootParams } from '../../routes/Navigator'
-import {  StackNavigationProp } from '@react-navigation/stack'
-
+import { StackNavigationProp } from '@react-navigation/stack'
+import { useCartStore } from '../../store/cart/useCart'
 import { useNavigation } from '@react-navigation/native'
+import { createOrder } from '../../config/adapters/createOrder'
+
 
 interface Props {
     product: Product,
     iconName: string
-}
-const ProductCard: FC<Props> = ({ product, iconName }) => {
+};
 
-    const { navigate } = useNavigation< StackNavigationProp<StackRootParams>>();
+const ProductCard: FC<Props> = ({ product, iconName }) => {
+    const { updateOrderById, addToCart, cart, isLoading } = useCartStore()
+    const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
+
+    const hadleAddToCart = async (id: string): Promise<void> => {
+        const order = createOrder(product, 1, id);
+        const orderFind = cart.find(order => order.ProductId === id);
+
+        if (orderFind) {
+
+            await updateOrderById(orderFind.id!, order)
+        }
+        else {
+
+            await addToCart(order)
+        }
+    }
 
     return (
-        <Layout style={style.card}>
-            <Pressable
-            onPress={() => navigate('ProductDetail', {id : product.id})} 
-            style={{flex : 1}}>
-                <Image
+        <>
+        
+            <Layout style={style.card}>
+                <Pressable
+                    onPress={() => navigate('ProductDetail', { id: product.id! })}
+                    style={{ flex: 1 }}>
+                    <Image
 
-                    style={style.image}
-                    source={{ uri: product.image }}
-                />
-            </Pressable>
-            <Layout
-                style={style.sectionInfo}
-            >
-                <Text 
-                numberOfLines={1}
-                style={style.textProduct}>
-                    {product.name}
-                </Text>
-                {/* Section Prices */}
-                <Layout style={style.sectionAllPrices}>
-                    {product.discount > 0 && (
-                        <Text style={style.textPriceOffer}>{formatQuantity(product.price - (product.price * (product.discount / 100)))}</Text>
-                    )}
-                    <Layout style={style.sectionPrices}>
+                        style={style.image}
+                        source={{ uri: product.image }}
+                    />
+                </Pressable>
+                <Layout
+                    style={style.sectionInfo}
+                >
+                    <Text
+                        numberOfLines={1}
+                        style={style.textProduct}>
+                        {product.name}
+                    </Text>
+                    {/* Section Prices */}
+                    <Layout style={style.sectionAllPrices}>
                         {product.discount > 0 && (
-                            <Text>On offer</Text>
+                            <Text style={style.textPriceOffer}>{formatQuantity(product.price - (product.price * (product.discount / 100)))}</Text>
                         )}
-                        <Text style={style.textPrice}>{formatQuantity(product.price)}</Text>
+                        <Layout style={style.sectionPrices}>
+                            {product.discount > 0 && (
+                                <Text>On offer</Text>
+                            )}
+                            <Text style={style.textPrice}>{formatQuantity(product.price)}</Text>
+                        </Layout>
+                    </Layout>
+                    {/* Section Shippjng */}
+                    <Layout style={style.sectionShipping}>
+                        <Image
+                            style={style.imgShipping}
+                            source={require('../../assets/shipping.png')}
+                        />
+                        <Text>Fast Shipping</Text>
+                    </Layout>
+                    {/* <Image/> */}
+                    <Layout
+                        style={style.sectionBtns}
+                    >
+                        <Pressable
+                            style={style.btnAdd}
+                            onPress={() => hadleAddToCart(product.id!)}
+                        >
+                            {isLoading ? (
+                                <ActivityIndicator color='#fff' size={30} />
+                            ) :
+
+                                <Icon name='cart-outline' color='#fff' size={30} />
+
+                            }
+
+                        </Pressable>
+                        <Pressable
+                            style={style.btnFav}
+                        >
+                            <Icon name={iconName} color='#fff' size={30} />
+                        </Pressable>
                     </Layout>
                 </Layout>
-                {/* Section Shippjng */}
-                <Layout style={style.sectionShipping}>
-                    <Image
-                        style={style.imgShipping}
-                        source={require('../../assets/shipping.png')}
-                    />
-                    <Text>Fast Shipping</Text>
-                </Layout>
-                {/* <Image/> */}
-                <Layout
-                    style={style.sectionBtns}
-                >
-                    <Pressable
-                        style={style.btnAdd}
-                    >
-                        <Icon name='cart-outline' color='#fff' size={30} />
-                    </Pressable>
-                    <Pressable
-                        style={style.btnFav}
-                    >
-                        <Icon name={iconName} color='#fff' size={30} />
-                    </Pressable>
-                </Layout>
             </Layout>
-        </Layout>
+        </>
     )
 
 }
@@ -81,7 +109,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         gap: 20,
         marginVertical: 25,
-        alignItems : 'flex-start'
+        alignItems: 'flex-start'
 
     },
     image: {
