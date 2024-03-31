@@ -42,6 +42,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                 return
             }
         });
+ 
 
     }, [])
 
@@ -57,19 +58,20 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
 
         const order = createOrder(product, quantity, id);
 
-        const orderFind = cart.find(order => order.ProductId === id);
+        const orderFind = cart?.find(order => order.ProductId === product.id);
 
         if (orderFind) {
-
-            await updateOrderById(orderFind.id!, order)
+          
+            await updateOrderById(orderFind?.id!, order)
         }
         else {
 
             await addToCart(order)
         }
     }
-
-
+    
+  
+  
     return (
         <>
             <CustomToast />

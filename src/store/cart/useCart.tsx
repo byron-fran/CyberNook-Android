@@ -69,14 +69,14 @@ export const useCartStore = create<CartState>((set, get) => ({
                 isLoading: true
             }));
        
-            await axios.put(`/order/${id}`, newOrder);
+           const {data} = await axios.put(`/order/${id}`, newOrder);
 
             const orderFind = get().cart.find(order => order.id === id);
 
             const ordersUpdate = get().cart.map(order => {
                 if (order.id === orderFind?.id!) {
 
-                    return newOrder
+                    return data
                 }
 
                 return order;
