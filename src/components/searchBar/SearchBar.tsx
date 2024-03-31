@@ -17,7 +17,7 @@ const SearchBar = () => {
         <>
             <View style={styles.bgHeader}>
                 <View style={styles.navBar}>
-                    <Pressable><Text style={styles.title}>CyberNook</Text></Pressable>
+                    <Pressable onPress={() => navigate('HomeScreen')}><Text style={styles.title}>CyberNook</Text></Pressable>
                     {status === 'authenticated'
                         ?
                         <MenuItemsOverFlow />

@@ -20,42 +20,31 @@ const MenuItemsOverFlow = () => {
         setVisible(false);
     };
 
-
     return (
 
         <OverflowMenu
             visible={visible}
             anchor={() => <Pressable onPress={() => setVisible(true)}>
-                <Text style={{ fontSize: 17, color: 'white' ,borderColor : 'red'}}>Hello, {user?.name!}</Text>
+                <Text style={{ fontSize: 17, color: 'white', borderColor: 'red' }}>Hello, {user?.name!}</Text>
             </Pressable>}
             selectedIndex={selectedIndex}
             onSelect={onItemSelect}
-            onBackdropPress={() => setVisible(false)}
-            contentContainerStyle={{
-                // borderColor : 'red',
-                // backgroundColor : 'red',
-                // borderBlockColor : 'red',
-                // borderStartColor : 'red',
-           
-            }}
-        >
+            onBackdropPress={() => setVisible(false)}>
 
             <MenuItem
                 onPress={() => navigate('ProfileScreen')}
                 accessoryRight={() => <Icon name='person-outline' size={20} />}
                 title='Profile'
                 style={{
-                    borderColor : 'red',
-                    
+                    borderColor: 'red',
+
                 }}
-                
-                 
             />
 
             <MenuItem
                 onPress={() => navigate('AddressScreen')}
                 accessoryRight={() => <Icon name='location-outline' size={20} />}
-                title='Location'
+                title='Address'
             />
             <MenuItem
                 accessoryRight={() => <Icon name='log-out-outline' size={20} />}

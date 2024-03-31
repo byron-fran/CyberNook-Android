@@ -42,8 +42,14 @@ const CartScreen = () => {
                                             Price unity {' '}
                                             <Text style={styles.priceNoDiscount}>{formatQuantity(order.unitPrice!)}</Text>
                                             {' '}
-                                            {formatQuantity(order.price!)}
+                                            {
+                                                formatQuantity(order.discount > 0 ?
+                                                    (order.unitPrice! - (order.unitPrice! * (order.discount / 100)))
+                                                    : order.unitPrice!)
+
+                                            }
                                         </Text>
+                                        <Text style={styles.price}>Total{' '}{formatQuantity(order.price!)} </Text>
                                     </Layout>
                                     <Pressable
                                         onPress={() => handleRemoveToCart(order.id!)}
@@ -53,13 +59,16 @@ const CartScreen = () => {
                                 </Layout>
                             </Layout>
                         </Layout>
-                    )) : <Layout>
-                        <Text>Cart Empty</Text>
+                    )) : <Layout style={styles.containerNoCart}>
+                        <Text style={{fontSize : 30}}>Cart Empty</Text>
                     </Layout>}
                 </Layout>
             }
-            <ModalTotalPay modalVisible={modalVisible} setModalVisible={setModalVisible}/>
-            <Button onPress={() => setModalVisible(true)}>See total</Button>
+            <ModalTotalPay modalVisible={modalVisible} setModalVisible={setModalVisible} />
+            {cart.length > 0 && (
+                <Button style={styles.btnSeeTotal} onPress={() => setModalVisible(true)}>See total</Button>
+
+            )}
         </LayoutMain>
 
     )
@@ -72,7 +81,8 @@ const styles = StyleSheet.create({
     },
     card: {
         flexDirection: 'row',
-        columnGap: 10
+        columnGap: 10,
+        marginVertical: 10
     },
     image: {
         width: '100%',
@@ -104,7 +114,16 @@ const styles = StyleSheet.create({
         fontSize: 15,
 
     },
-
-
+    btnSeeTotal: {
+        backgroundColor: '#4F46E5',
+        borderWidth: 0,
+        marginTop: 30
+    },
+    containerNoCart : {
+        flex : 1, 
+        backgroundColor : '#fff', 
+        height : 615,
+        alignItems : 'center'
+    }
 })
 export default CartScreen

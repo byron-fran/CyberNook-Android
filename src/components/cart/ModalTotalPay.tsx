@@ -4,6 +4,9 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCartStore } from '../../store/cart/useCart';
 import { useAddressStore } from '../../store/useAddress';
 import { formatQuantity } from '../../helpers/formatQuanity';
+import { calculateTotalPrice } from '../../helpers/calculateTotalPrice';
+
+
 interface Props {
     modalVisible: boolean,
     setModalVisible: Dispatch<SetStateAction<boolean>>
@@ -13,10 +16,11 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
     const { cart } = useCartStore();
     const { Address, isLoading, getAddress } = useAddressStore();
 
-
     useEffect(() => {
         getAddress()
     }, [getAddress]);
+
+    const { totalQuantity, totalPriceToPay, save } = calculateTotalPrice(cart);
 
     return (
 
@@ -49,7 +53,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
                         </Text>
                         <Text style={styles.textPrimary}>
                             Street
-                          {' '}
+                            {' '}
                             <Text style={styles.textSecundary}>{Address.street}</Text>
                         </Text>
 
@@ -60,36 +64,37 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
                         </Text>
                         <Text style={styles.textPrimary}>
                             City
-                          {' '}
+                            {' '}
                             <Text style={styles.textSecundary}>{Address.city}</Text>
                         </Text>
                         <Text style={styles.textPrimary}>
-                       {' '}
+                            Country
+                            {' '}
                             <Text style={styles.textSecundary}>{Address.country}</Text>
                         </Text>
                     </Layout>
                     {/* container total to pay */}
                     <Layout style={styles.containerPayment}>
                         <Text style={styles.textPrimary}>
-                          Quantity products {' '}
-                            <Text style={styles.textSecundary}>32</Text>
+                            Quantity products {' '}
+                            <Text style={styles.textSecundary}>{totalQuantity}</Text>
                         </Text>
                         <Text style={styles.textPrimary}>
                             Shipping cost {' '}
-                            <Text style={styles.textSecundary}>{formatQuantity(4)}</Text>
+                            <Text style={styles.textSecundary}>{formatQuantity(0)}</Text>
                         </Text>
 
                         <Text style={styles.textPrimary}>
-                           Save {' '}
-                            <Text style={styles.textSecundary}>{formatQuantity(4)}</Text>
+                            Save {' '}
+                            <Text style={styles.textSecundary}>{formatQuantity(save)}</Text>
                         </Text>
                         <Text style={styles.textPrimary}>
                             Subtotal {' '}
-                            <Text style={styles.textSecundary}>{formatQuantity(4)}</Text>
+                            <Text style={styles.textSecundary}>{formatQuantity(totalPriceToPay)}</Text>
                         </Text>
-                        <Text style={[styles.textPrimary, {fontSize : 25}]}>
+                        <Text style={[styles.textPrimary, { fontSize: 25 }]}>
                             Total {' '}
-                            <Text style={[styles.textSecundary, {fontSize : 25}]}>{formatQuantity(23)}</Text>
+                            <Text style={[styles.textSecundary, { fontSize: 25 }]}>{formatQuantity(totalPriceToPay)}</Text>
                         </Text>
                     </Layout>
                 </Layout>
@@ -162,7 +167,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#4F46E5',
         width: '90%',
         marginHorizontal: '5%',
-        marginBottom: 20
+        marginBottom: 20,
+        borderWidth : 0
     }
 })
 

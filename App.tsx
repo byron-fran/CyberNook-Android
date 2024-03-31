@@ -9,7 +9,7 @@ import BottomTabs from './src/tabs/BottomTabs';
 
 const App = () => {
   const client = new QueryClient()
-
+  
   return (
     <QueryClientProvider client={client}>
       <ApplicationProvider {...eva} theme={eva.light}>
