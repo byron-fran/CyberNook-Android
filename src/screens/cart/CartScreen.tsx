@@ -1,12 +1,14 @@
 import LayoutMain from '../../layouts/LayoutMain';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCartStore } from '../../store/cart/useCart';
 import { Layout, Text } from '@ui-kitten/components';
 import Loading from '../../components/loading/Loading';
-import { Image, Pressable, StyleSheet } from 'react-native';
+import { Image, Pressable, StyleSheet, Modal, Alert, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { formatQuantity } from '../../helpers/formatQuanity';
 import { generateId } from '../../helpers/generateId';
+import { Button } from '@ui-kitten/components';
+import ModalTotalPay from '../../components/cart/ModalTotalPay';
 
 const CartScreen = () => {
     const { getCart, cart, isLoading, deleteOrderById } = useCartStore();
@@ -15,9 +17,10 @@ const CartScreen = () => {
         getCart()
     }, []);
 
-    const handleRemoveToCart = async (id: string) : Promise<void> => {
+    const handleRemoveToCart = async (id: string): Promise<void> => {
         await deleteOrderById(id)
-    }
+    };
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <LayoutMain>
             {isLoading
@@ -55,6 +58,8 @@ const CartScreen = () => {
                     </Layout>}
                 </Layout>
             }
+            <ModalTotalPay modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            <Button onPress={() => setModalVisible(true)}>See total</Button>
         </LayoutMain>
 
     )
@@ -93,12 +98,13 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 15
     },
-    priceNoDiscount : {
-        color : "#EF4444",
-        textDecorationLine : 'line-through',
+    priceNoDiscount: {
+        color: "#EF4444",
+        textDecorationLine: 'line-through',
         fontSize: 15,
 
-    }
+    },
+
 
 })
 export default CartScreen
