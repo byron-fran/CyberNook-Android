@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { FlatList, Image, StyleSheet, View, Pressable } from 'react-native'
 import { Review } from '../../interfaces/Review'
 import { Layout, Text, Avatar } from '@ui-kitten/components';
@@ -14,24 +14,50 @@ const Reviews: FC<{ productId: string }> = ({ productId }) => {
 
     const { getReviewsByProduct, reviews, isLoading } = useReviewStore();
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
-    const {user} = useAuthStore()
+    const [foundComment, setFoundCommet] = useState(false);
+    const { user, status } = useAuthStore()
+
     useEffect(() => {
 
         getReviewsByProduct(productId);
 
     }, [reviews.length]);
 
+    useEffect(() => {
+        for (let i = 0; i < reviews?.length; i++) {
+            if (reviews[i].UserId === user?.id) {
+                setFoundCommet(true)
+
+            }
+
+        }
+        return () => {
+            setFoundCommet(false)
+        }
+
+    }, [foundComment, reviews]);
+
     if (isLoading) return <Loading />;
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Reviews {reviews.length}</Text>
             <Layout style={styles.containerButton}>
-                <Pressable
-                    onPress={() => navigate('AddReviewScreen', {productId})}
-                >
-                    <Icon name='add-circle-outline' color='#0854A5' size={40} />
-                </Pressable>
+                {!foundComment && (
+                    <Pressable
+                        onPress={() => {
+                            if(status === 'authenticated'){
+                                navigate('AddReviewScreen', { productId })
+                                return
+                            }
+                            navigate('LoginScreen')
+                        }}
+                    >
+                        <Icon name='add-circle-outline' color='#0854A5' size={40} />
+                    </Pressable>
+                )
+                }
+
             </Layout>
             <Layout >
                 {reviews.length > 0 && reviews.map(review => {

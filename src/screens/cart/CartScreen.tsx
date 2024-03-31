@@ -13,10 +13,7 @@ import ModalTotalPay from '../../components/cart/ModalTotalPay';
 const CartScreen = () => {
     const { getCart, cart, isLoading, deleteOrderById } = useCartStore();
 
-    useEffect(() => {
-        getCart()
-    }, []);
-
+  
     const handleRemoveToCart = async (id: string): Promise<void> => {
         await deleteOrderById(id)
     };

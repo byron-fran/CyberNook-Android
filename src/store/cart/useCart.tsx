@@ -9,7 +9,7 @@ export interface Order extends Product {
 export interface CartState {
     cart: Order[],
     addToCart: (order: Order) => Promise<void>,
-    getCart: () => Promise<void>,
+    getCart: () => Promise<Order[] | undefined>,
     deleteOrderById: (id: string) => Promise<void>,
     updateOrderById: (id: string, order: Order) => Promise<void>
     isLoading: boolean,
@@ -48,15 +48,16 @@ export const useCartStore = create<CartState>((set, get) => ({
             console.log(error)
         }
     },
-    getCart: async () => {
+    getCart: async () : Promise<Order[] | undefined>  => {
         try {
 
             const { data } = await axios.get<Order[]>('/list_order');
+        
             set({
                 cart: data,
 
             })
-
+            return data
         } catch (error) {
             console.log(error)
         }

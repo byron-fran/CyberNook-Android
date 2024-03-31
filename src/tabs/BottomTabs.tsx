@@ -3,7 +3,11 @@ import CartScreen from "../screens/cart/CartScreen";
 import FavoritesScreen from "../screens/favorites/FavoritesScreen";
 import AppNavigator from "../routes/Navigator";
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { useCartStore } from "../store/cart/useCart";
+import { useEffect } from "react";
+import { StyleSheet, Text } from "react-native";
+import { colors } from "../colors/colors";
+import { calculateTotalPrice } from "../helpers/calculateTotalPrice";
 
 export type TabRootParams = {
 
@@ -17,6 +21,15 @@ export type TabRootParams = {
 const Tab = createBottomTabNavigator<TabRootParams>();
 
 const BottomTabs = () => {
+    const { getCart, cart } = useCartStore();
+
+    useEffect(() => {
+
+        getCart();
+
+    }, [cart.length]);
+    
+    const { totalQuantity } = calculateTotalPrice(cart)
 
     return (
         <Tab.Navigator
@@ -50,11 +63,26 @@ const BottomTabs = () => {
                     title: ''
                 }} />
             <Tab.Screen
+
                 name='CartScreen'
                 component={CartScreen}
                 options={{
+                    tabBarItemStyle: {
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        width: 30
+
+                    },
+                    tabBarLabel: ((props) => {
+                        return totalQuantity > 0 ? (
+                            <Text style={styles.btnQuantity}>{totalQuantity}</Text>
+                        ) : null
+                    }),
+                    tabBarLabelPosition: 'below-icon',
                     title: ''
                 }}
+
             />
             <Tab.Screen
                 name='FavoriteScreen'
@@ -69,4 +97,16 @@ const BottomTabs = () => {
     )
 
 }
+const styles = StyleSheet.create({
+    btnQuantity: {
+        position: 'absolute',
+        right: 30,
+        backgroundColor: colors.blue,
+        borderRadius: 50,
+        padding: 6,
+        color: '#fff',
+        fontSize: 11,
+        fontWeight: 'bold'
+    }
+})
 export default BottomTabs
