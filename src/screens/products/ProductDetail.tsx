@@ -22,7 +22,8 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
     const { status } = useAuthStore()
     const { getProductById, isLoading } = useProductsStore();
     const [selectedIndex, setSelectIndex] = useState<IndexPath | IndexPath[]>(new IndexPath(0));
-    const [product, setProduct] = useState<Product>({} as Product)
+    const [product, setProduct] = useState<Product>({} as Product);
+    
     const { addToCart, updateOrderById, cart, isLoading: loading, success } = useCartStore();
 
     const { CustomToast, showToast } = useToastAnimation(

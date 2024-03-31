@@ -1,11 +1,15 @@
-import { Layout, Text, Button } from '@ui-kitten/components';
+import { Layout, Text, Button} from '@ui-kitten/components';
 import { Modal, Pressable, StyleSheet } from 'react-native';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCartStore } from '../../store/cart/useCart';
 import { useAddressStore } from '../../store/useAddress';
 import { formatQuantity } from '../../helpers/formatQuanity';
 import { calculateTotalPrice } from '../../helpers/calculateTotalPrice';
-
+import { colors } from '../../colors/colors';
+import Icon from 'react-native-vector-icons/Ionicons'
+import { useNavigation } from '@react-navigation/native';
+import { StackRootParams } from '../../routes/Navigator';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface Props {
     modalVisible: boolean,
@@ -15,13 +19,14 @@ interface Props {
 const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
     const { cart } = useCartStore();
     const { Address, isLoading, getAddress } = useAddressStore();
-
+    const {navigate} = useNavigation<StackNavigationProp<StackRootParams>>()
     useEffect(() => {
-        
+
         getAddress();
-    }, [getAddress]);
+    }, []);
 
     const { totalQuantity, totalPriceToPay, save } = calculateTotalPrice(cart);
+    const { city, country, exteriorNumber, postalCode, street } = Address
 
     return (
 
@@ -45,35 +50,46 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
 
                 {/* section of payment and address */}
                 <Layout style={styles.container}>
+                    {postalCode === null ? (
+                       <Button 
+                        onPress={() => navigate('AddressScreen')}
+                        style={{backgroundColor : colors.indigo}}
+                        accessoryRight={() => <Icon name='add-circle-outline' color='#fff' size={30} />}
+                        >Update your address</Button>
 
-                    <Layout style={styles.containerAddress}>
-                        <Text style={styles.textPrimary}>
-                            Exterior Number
-                            {' '}
-                            <Text style={styles.textSecundary}>{Address.exteriorNumber}</Text>
-                        </Text>
-                        <Text style={styles.textPrimary}>
-                            Street
-                            {' '}
-                            <Text style={styles.textSecundary}>{Address.street}</Text>
-                        </Text>
+                    ) : (
 
-                        <Text style={styles.textPrimary}>
-                            ZIP Code
-                            {' '}
-                            <Text style={styles.textSecundary}>{Address.postalCode}</Text>
-                        </Text>
-                        <Text style={styles.textPrimary}>
-                            City
-                            {' '}
-                            <Text style={styles.textSecundary}>{Address.city}</Text>
-                        </Text>
-                        <Text style={styles.textPrimary}>
-                            Country
-                            {' '}
-                            <Text style={styles.textSecundary}>{Address.country}</Text>
-                        </Text>
-                    </Layout>
+
+                        <Layout style={styles.containerAddress}>
+                            <Text style={styles.textPrimary}>
+                                Exterior Number
+                                {' '}
+                                <Text style={styles.textSecundary}>{Address.exteriorNumber}</Text>
+                            </Text>
+                            <Text style={styles.textPrimary}>
+                                Street
+                                {' '}
+                                <Text style={styles.textSecundary}>{Address.street}</Text>
+                            </Text>
+
+                            <Text style={styles.textPrimary}>
+                                ZIP Code
+                                {' '}
+                                <Text style={styles.textSecundary}>{Address.postalCode}</Text>
+                            </Text>
+                            <Text style={styles.textPrimary}>
+                                City
+                                {' '}
+                                <Text style={styles.textSecundary}>{Address.city}</Text>
+                            </Text>
+                            <Text style={styles.textPrimary}>
+                                Country
+                                {' '}
+                                <Text style={styles.textSecundary}>{Address.country}</Text>
+                            </Text>
+                        </Layout>
+                    )}
+
                     {/* container total to pay */}
                     <Layout style={styles.containerPayment}>
                         <Text style={styles.textPrimary}>
@@ -169,7 +185,7 @@ const styles = StyleSheet.create({
         width: '90%',
         marginHorizontal: '5%',
         marginBottom: 20,
-        borderWidth : 0
+        borderWidth: 0
     }
 })
 

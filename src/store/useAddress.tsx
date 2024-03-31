@@ -30,8 +30,8 @@ export const useAddressStore = create<AddressState>((set, get) => ({
     getAddress: async () => {
         try {
             const { data } = await axios.get('/address');
-            set((state) => ({
-                ...state,
+            set( ({
+       
                 Address: data
             }))
             return data

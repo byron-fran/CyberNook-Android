@@ -32,7 +32,8 @@ const ProductCard: FC<Props> = ({ product, iconName }) => {
 
             await addToCart(order)
         }
-    }
+    };
+    
 
     return (
         <>
