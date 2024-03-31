@@ -17,7 +17,8 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
     const { Address, isLoading, getAddress } = useAddressStore();
 
     useEffect(() => {
-        getAddress()
+        
+        getAddress();
     }, [getAddress]);
 
     const { totalQuantity, totalPriceToPay, save } = calculateTotalPrice(cart);

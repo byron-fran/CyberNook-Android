@@ -12,7 +12,6 @@ const SearchBar = () => {
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const { status } = useAuthStore()
 
-
     return (
         <>
             <View style={styles.bgHeader}>
@@ -36,10 +35,7 @@ const SearchBar = () => {
                 />
 
             </View>
-
         </>
-
-
     )
 
 }
@@ -53,7 +49,7 @@ const styles = StyleSheet.create({
     bgHeader: {
         width: '100%',
         backgroundColor: '#0854A5',
-        height: 165,
+        height: 160,
         borderBottomEndRadius: 20,
         borderBottomStartRadius: 20,
     },

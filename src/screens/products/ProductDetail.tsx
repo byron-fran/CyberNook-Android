@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         width: '90%',
         marginHorizontal: '5%',
-
+    
     },
     title: {
         textAlign: 'center',
@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
         width: 'auto'
     },
     card: {
-        backgroundColor: '#fff'
+        
+
     },
     image: {
         width: '100%',

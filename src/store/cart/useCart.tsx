@@ -67,7 +67,7 @@ export const useCartStore = create<CartState>((set, get) => ({
                 ...state,
                 isLoading: true
             }));
-            console.log(newOrder)
+       
             await axios.put(`/order/${id}`, newOrder);
 
             const orderFind = get().cart.find(order => order.id === id);
@@ -79,8 +79,6 @@ export const useCartStore = create<CartState>((set, get) => ({
                 }
 
                 return order;
-
-
             });
 
 

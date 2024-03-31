@@ -1,25 +1,39 @@
 import { FC, useEffect } from 'react'
-import { FlatList, Image, StyleSheet, View } from 'react-native'
+import { FlatList, Image, StyleSheet, View, Pressable } from 'react-native'
 import { Review } from '../../interfaces/Review'
 import { Layout, Text, Avatar } from '@ui-kitten/components';
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useQuery } from '@tanstack/react-query';
-import { getReviewsByProduct } from '../../config/adapters/getReviewsByProduct';
+import { useReviewStore } from '../../store/reviews/useReviewsStore';
+import Loading from '../loading/Loading';
+import { useNavigation } from '@react-navigation/native';
+import { StackRootParams } from '../../routes/Navigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useAuthStore } from '../../store/useAuth';
 
 const Reviews: FC<{ productId: string }> = ({ productId }) => {
-    const { data: reviews = [], isLoading } = useQuery({
-        queryKey: ['reviews'],
-        queryFn: async () => getReviewsByProduct(productId),
-        staleTime: 0,
-        
-    });
+
+    const { getReviewsByProduct, reviews, isLoading } = useReviewStore();
+    const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
+    const {user} = useAuthStore()
     useEffect(() => {
 
-    }, [])
+        getReviewsByProduct(productId);
+
+    }, [reviews.length]);
+
+    if (isLoading) return <Loading />;
+    
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Reviews</Text>
-            <Layout>
+            <Text style={styles.title}>Reviews {reviews.length}</Text>
+            <Layout style={styles.containerButton}>
+                <Pressable
+                    onPress={() => navigate('AddReviewScreen', {productId})}
+                >
+                    <Icon name='add-circle-outline' color='#0854A5' size={40} />
+                </Pressable>
+            </Layout>
+            <Layout >
                 {reviews.length > 0 && reviews.map(review => {
 
                     const date = new Date(review.updatedAt!).toLocaleDateString('en-Us', {
@@ -63,7 +77,9 @@ const Reviews: FC<{ productId: string }> = ({ productId }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        // backgroundColor : 'red',
+        // padding : 10
     },
     title: {
         textAlign: 'center',
@@ -71,6 +87,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginVertical: 20
 
+    },
+
+    containerButton: {
+        marginBottom: 10,
+        justifyContent: 'flex-end',
+        width: '90%',
+        alignItems: 'flex-end'
     },
     infoReview: {
         flexDirection: 'row',
@@ -86,9 +109,9 @@ const styles = StyleSheet.create({
     textDate: {
         color: '#0854A5'
     },
-    stars : {
-        flexDirection : 'row',
-        marginTop : 5
+    stars: {
+        flexDirection: 'row',
+        marginTop: 5
     },
     comment: {
         marginVertical: 15,

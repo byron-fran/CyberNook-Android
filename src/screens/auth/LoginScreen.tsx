@@ -66,7 +66,7 @@ const LoginScreen = ({ navigation }: Props) => {
                         accessoryLeft={<Icon name='mail-outline' size={25} />}
                         value={email}
                         onChangeText={(value) => setEmail(value)}
-
+                          
                     />
 
                 </View>
