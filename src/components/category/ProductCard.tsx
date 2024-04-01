@@ -1,5 +1,5 @@
 import { Product } from '../../interfaces/products'
-import { FC, useEffect } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { Layout, Text } from '@ui-kitten/components'
 import { ActivityIndicator, Image, Pressable, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -13,31 +13,37 @@ import { createOrder } from '../../config/adapters/createOrder'
 
 interface Props {
     product: Product,
-    iconName: string
+    iconName: string,
+
+    isFavorite: boolean,
+    setIsFavorite: Dispatch<SetStateAction<boolean>>
 };
 
-const ProductCard: FC<Props> = ({ product, iconName }) => {
-    const { updateOrderById, addToCart, cart, isLoading } = useCartStore()
+const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }) => {
+    const { updateOrderById, addToCart, cart } = useCartStore()
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const hadleAddToCart = async (id: string): Promise<void> => {
         const order = createOrder(product, 1, id);
         const orderFind = cart.find(order => order.ProductId === id);
 
         if (orderFind) {
-
+            setIsLoading(true)
             await updateOrderById(orderFind.id!, order)
+            setIsLoading(false)
         }
         else {
-
+            setIsLoading(true)
             await addToCart(order)
+            setIsLoading(false)
         }
     };
-    
+
 
     return (
         <>
-        
+
             <Layout style={style.card}>
                 <Pressable
                     onPress={() => navigate('ProductDetail', { id: product.id! })}
@@ -77,25 +83,20 @@ const ProductCard: FC<Props> = ({ product, iconName }) => {
                         <Text>Fast Shipping</Text>
                     </Layout>
                     {/* <Image/> */}
-                    <Layout
-                        style={style.sectionBtns}
-                    >
+                    <Layout style={style.sectionBtns}>
                         <Pressable
                             style={style.btnAdd}
                             onPress={() => hadleAddToCart(product.id!)}
                         >
-                            {isLoading ? (
+                            {isLoading && product.id! ? (
                                 <ActivityIndicator color='#fff' size={30} />
                             ) :
-
                                 <Icon name='cart-outline' color='#fff' size={30} />
-
                             }
-
                         </Pressable>
                         <Pressable
                             style={style.btnFav}
-                        >
+                            onPress={() => setIsFavorite(!isFavorite)}>
                             <Icon name={iconName} color='#fff' size={30} />
                         </Pressable>
                     </Layout>

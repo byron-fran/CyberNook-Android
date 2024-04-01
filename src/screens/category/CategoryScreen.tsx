@@ -13,7 +13,8 @@ import { useCartStore } from '../../store/cart/useCart'
 interface Props extends StackScreenProps<StackRootParams, 'CategoryScreen'> { }
 
 const CategoryScreen = ({ route: { params } }: Props) => {
-    const { success} = useCartStore()
+    const { success } = useCartStore();
+    const [isFavorite, setIsFavorite] = useState<boolean>(false)
     const { CustomToast, showToast } = useToastAnimation(
         {
             type: 'success',
@@ -30,9 +31,10 @@ const CategoryScreen = ({ route: { params } }: Props) => {
 
         getProductsByCategory(category)
             .then((result: Product[]) => {
-                setProductsByCategory(result)
+
+                setProductsByCategory(result);
+
             })
-        
 
     }, []);
 
@@ -42,6 +44,9 @@ const CategoryScreen = ({ route: { params } }: Props) => {
         }
     }, [showToast, success]);
 
+
+
+    
     return (
         <>
             <CustomToast />
@@ -51,7 +56,13 @@ const CategoryScreen = ({ route: { params } }: Props) => {
                     {productsByCategory.length > 0 || productsByCategory !== undefined ? (
                         <Layout>
                             {productsByCategory.map(product => (
-                                <ProductCard product={product} iconName='heart-outline' key={product.id} />
+                                <ProductCard
+                                    setIsFavorite={setIsFavorite}
+                                    isFavorite={isFavorite}
+                   
+                                    product={product}
+                                    iconName={`${isFavorite ? 'heart' : 'heart-outline'}`}
+                                    key={product.id} />
                             ))}
                         </Layout>
                     ) : <Layout>
