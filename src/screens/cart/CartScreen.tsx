@@ -1,20 +1,21 @@
 import LayoutMain from '../../layouts/LayoutMain';
 import { useEffect, useState } from 'react';
 import { useCartStore } from '../../store/cart/useCart';
-import { Layout, Text ,Button } from '@ui-kitten/components';
+import { Layout, Text, Button } from '@ui-kitten/components';
 import Loading from '../../components/loading/Loading';
-import { Image, Pressable, StyleSheet, View} from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { formatQuantity } from '../../helpers/formatQuanity';
 import { generateId } from '../../helpers/generateId';
 import ModalTotalPay from '../../components/cart/ModalTotalPay';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { TabRootParams } from '../../tabs/BottomTabs';
+import { colors } from '../../colors/colors';
 
-interface Props extends BottomTabScreenProps<TabRootParams, 'CartScreen'>{};
+interface Props extends BottomTabScreenProps<TabRootParams, 'CartScreen'> { };
 
-const CartScreen = ({navigation, route} : Props) => {
-    const {  cart, isLoading, deleteOrderById } = useCartStore();
+const CartScreen = ({ navigation, route }: Props) => {
+    const { cart, isLoading, deleteOrderById } = useCartStore();
 
 
     const handleRemoveToCart = async (id: string): Promise<void> => {
@@ -52,16 +53,25 @@ const CartScreen = ({navigation, route} : Props) => {
                                         </Text>
                                         <Text style={styles.price}>Total{' '}{formatQuantity(order.price!)} </Text>
                                     </Layout>
-                                    <Pressable
-                                        onPress={() => handleRemoveToCart(order.id!)}
-                                    >
-                                        <Icon name='trash-outline' size={30} color='#EF4444' />
-                                    </Pressable>
+                                    <Layout style={styles.containerBtns}>
+                                        <Pressable>
+                                            <Icon name='remove-circle-outline' size={35} color={colors.orange} />
+                                        </Pressable>
+                                        <Text style={styles.textQuantity}>{order.quantity}</Text>
+                                        <Pressable>
+                                            <Icon name='add-circle-outline' size={35} color={colors.blue} />
+                                        </Pressable>
+                                        <Pressable
+                                            onPress={() => handleRemoveToCart(order.id!)}
+                                        >
+                                            <Icon name='trash-outline' size={30} color={colors.red} />
+                                        </Pressable>
+                                    </Layout>
                                 </Layout>
                             </Layout>
                         </Layout>
                     )) : <Layout style={styles.containerNoCart}>
-                        <Text style={{fontSize : 30}}>Cart Empty</Text>
+                        <Text style={{ fontSize: 30 }}>Cart Empty</Text>
                     </Layout>}
                 </Layout>
             }
@@ -119,14 +129,24 @@ const styles = StyleSheet.create({
         backgroundColor: '#4F46E5',
         borderWidth: 0,
         marginTop: 30,
-        width : '90%',
-        marginHorizontal : '5%',
+        width: '90%',
+        marginHorizontal: '5%',
     },
-    containerNoCart : {
-        flex : 1, 
-        backgroundColor : '#fff', 
-        height : 615,
-        alignItems : 'center'
+    containerNoCart: {
+        flex: 1,
+        backgroundColor: '#fff',
+        height: 615,
+        alignItems: 'center'
+    },
+    containerBtns : {
+        flexDirection : 'row',
+        alignItems : 'center',
+        height : 40,
+        gap : 10
+    },
+    textQuantity : {
+        fontWeight : 'bold',
+        fontSize : 22
     }
 })
 export default CartScreen

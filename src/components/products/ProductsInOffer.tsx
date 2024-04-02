@@ -61,7 +61,7 @@ const ProductsInOffer: FC<Props> = ({ products, isLoading }) => {
             </View>
             {/* products in offer by 10 percent(%) */}
                  <FlatList
-                style={{ marginLeft : 20}}
+                style={{ marginLeft : 20, marginRight : 20}}
                 data={productsInOffer}
                 renderItem={({ item }) => (
                     <View >
