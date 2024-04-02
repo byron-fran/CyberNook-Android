@@ -6,20 +6,25 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { StackRootParams } from '../../routes/Navigator';
 import { useAuthStore } from '../../store/useAuth'
-
-
+import { useCartStore } from '../../store/cart/useCart'
+import { useAddressStore } from '../../store/useAddress'
 const MenuItemsOverFlow = () => {
 
     const { user, logout } = useAuthStore()
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const [selectedIndex, setSelectedIndex] = useState<IndexPath>(new IndexPath(0));
     const [visible, setVisible] = useState(false);
-
+    const {clearCart} = useCartStore();
+    const {clearAddress} = useAddressStore()
     const onItemSelect = (index: any): void => {
         setSelectedIndex(index);
         setVisible(false);
     };
-
+    const onLogout = () => {
+        logout()
+        clearCart()
+        clearAddress()
+    }
     return (
 
         <OverflowMenu
@@ -48,7 +53,7 @@ const MenuItemsOverFlow = () => {
             />
             <MenuItem
                 accessoryRight={() => <Icon name='log-out-outline' size={20} />}
-                title='Logout' onPress={logout}
+                title='Logout' onPress={onLogout}
             />
         </OverflowMenu>
 

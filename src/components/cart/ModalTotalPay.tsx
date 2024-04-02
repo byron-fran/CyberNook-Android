@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
 import { StackNavigationProp } from '@react-navigation/stack';
-
+import { Address as AddressInterface } from '../../interfaces/Address';
 interface Props {
     modalVisible: boolean,
     setModalVisible: Dispatch<SetStateAction<boolean>>
@@ -19,14 +19,20 @@ interface Props {
 const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
     const { cart } = useCartStore();
     const { Address, isLoading, getAddress } = useAddressStore();
-    const {navigate} = useNavigation<StackNavigationProp<StackRootParams>>()
+    const {navigate} = useNavigation<StackNavigationProp<StackRootParams>>();
+    const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address)
     useEffect(() => {
+        getAddress()
+            .then((result: AddressInterface) => {
+                if (result) {
+                    setInfoAddress(result);
+                    return
+                }
+            })
 
-        getAddress();
-    }, []);
+    }, [getAddress]);
 
     const { totalQuantity, totalPriceToPay, save } = calculateTotalPrice(cart);
-    const { city, country, exteriorNumber, postalCode, street } = Address
 
     return (
 
@@ -50,7 +56,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
 
                 {/* section of payment and address */}
                 <Layout style={styles.container}>
-                    {postalCode === null ? (
+                    {Object.values(Address).length < 0? (
                        <Button 
                         onPress={() => navigate('AddressScreen')}
                         style={{backgroundColor : colors.indigo}}
@@ -64,18 +70,18 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
                             <Text style={styles.textPrimary}>
                                 Exterior Number
                                 {' '}
-                                <Text style={styles.textSecundary}>{Address.exteriorNumber}</Text>
+                                <Text style={styles.textSecundary}>{infoAddress.exteriorNumber}</Text>
                             </Text>
                             <Text style={styles.textPrimary}>
                                 Street
                                 {' '}
-                                <Text style={styles.textSecundary}>{Address.street}</Text>
+                                <Text style={styles.textSecundary}>{infoAddress.street}</Text>
                             </Text>
 
                             <Text style={styles.textPrimary}>
                                 ZIP Code
                                 {' '}
-                                <Text style={styles.textSecundary}>{Address.postalCode}</Text>
+                                <Text style={styles.textSecundary}>{infoAddress.postalCode}</Text>
                             </Text>
                             <Text style={styles.textPrimary}>
                                 City
@@ -85,7 +91,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
                             <Text style={styles.textPrimary}>
                                 Country
                                 {' '}
-                                <Text style={styles.textSecundary}>{Address.country}</Text>
+                                <Text style={styles.textSecundary}>{infoAddress.country}</Text>
                             </Text>
                         </Layout>
                     )}

@@ -21,13 +21,8 @@ export type TabRootParams = {
 const Tab = createBottomTabNavigator<TabRootParams>();
 
 const BottomTabs = () => {
-    const { getCart, cart } = useCartStore();
+    const {  cart } = useCartStore();
 
-    useEffect(() => {
-
-        getCart();
-
-    }, [cart.length]);
     
     const { totalQuantity } = calculateTotalPrice(cart)
 

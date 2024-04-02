@@ -115,7 +115,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({
             status: 'unauthenticated',
             user: undefined,
-            token: undefined
+            token: undefined,
+            
         })
 
     },

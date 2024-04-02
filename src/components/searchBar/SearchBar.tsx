@@ -6,12 +6,29 @@ import { Text, Input } from '@ui-kitten/components';
 import { useAuthStore } from '../../store/useAuth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import MenuItemsOverFlow from '../menu/MenuItems';
+import { useProductsStore } from '../../store/useProducts';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import Icon from 'react-native-vector-icons/Ionicons'
+import { colors } from '../../colors/colors';
+
 
 const SearchBar = () => {
 
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
-    const { status } = useAuthStore()
+    const {getAllProducts} = useProductsStore()
+    const { status } = useAuthStore();
+    const [searchTerm, setSearchTerm] = useState('');
 
+    const {data : all_products = [], isLoading} = useQuery({
+        queryKey :[ 'all_products'],
+        queryFn : async () => await getAllProducts(),
+        staleTime : 100 * 60 * 60
+    });
+
+    const onCloseBTN = () => {
+        setSearchTerm('')
+    }
     return (
         <>
             <View style={styles.bgHeader}>
@@ -30,8 +47,18 @@ const SearchBar = () => {
                 </View>
 
                 <Input
+                    accessoryLeft={() => <Icon name='search-outline' size={25} color={colors.gray}/>}
                     style={styles.input}
                     placeholder='Search for anything'
+                    placeholderTextColor={colors.gray}
+                    accessoryRight={() =>  
+                        <Icon 
+                            onPress={onCloseBTN}
+                            name='close-circle-outline' 
+                            size={25} 
+                            color={colors.gray}/>}
+                    value={searchTerm}
+                    onChangeText={(value) => setSearchTerm(value)}
                 />
 
             </View>

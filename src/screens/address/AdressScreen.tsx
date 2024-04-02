@@ -104,7 +104,7 @@ const AddressScreen = () => {
                     <Layout style={styles.inputCard}>
                         <Text style={styles.textLabel}>Exterior number</Text>
                         <Input
-                            value={infoAddress.exteriorNumber}
+                            value={infoAddress.exteriorNumber ? infoAddress.exteriorNumber.toString() : ''}
                             keyboardType='numeric'
                             onChangeText={(value) => {
                                 setInfoAddress({ ...infoAddress, exteriorNumber: value })
@@ -119,7 +119,7 @@ const AddressScreen = () => {
                     <Layout style={styles.inputCard}>
                         <Text style={styles.textLabel}>Postal Code</Text>
                         <Input
-                            value={infoAddress.postalCode}
+                            value={infoAddress.postalCode ? infoAddress.postalCode.toString() : ''}
                             onChangeText={(value) => {
                                 setInfoAddress({ ...infoAddress, postalCode: value })
                             }}

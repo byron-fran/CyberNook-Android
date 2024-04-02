@@ -7,6 +7,8 @@ export const colors = {
     red: '#EF4444',
     indigo : '#4F46E5',
     sky : '#D7EEFE',
+    grayLight : '#E0E0E0',
+    gray : '#85929E',
     
 
 }

@@ -10,7 +10,8 @@ export interface AddressState {
     getAddress: () => Promise<Address>,
     createAddress: (address: Address) => Promise<void>,
     updateAddress: (id: string, address: Address) => Promise<void>,
-    deleteAddress: (id: string) => Promise<void>
+    deleteAddress: (id: string) => Promise<void>,
+    clearAddress : () => void
     isLoading: boolean,
     success: boolean
 }
@@ -87,6 +88,12 @@ export const useAddressStore = create<AddressState>((set, get) => ({
     },
     deleteAddress: async (id: string) => {
 
+    },
+    clearAddress : () => {
+        set({
+            Address : {} as Address
+        })
     }
+
 
 }))

@@ -4,39 +4,61 @@ import { cybernookApi as axios } from "../config/api/cybernookApi";
 import { ProductResponse } from "../interfaces/ProductResponse";
 
 export type ProductsResponse = {
-    products : Product[],
-    totalItems : number,
-    currentPage : number,
-    
+    products: Product[],
+    totalItems: number,
+    currentPage: number,
+    allProducts: Product[]
+
 }
 export interface ProductsState {
-    products : Product[],
-    getProducts : () => Promise<ProductsResponse >,
-    isLoading : boolean,
-    getProductById : (id: string) => Promise<Product>
+    products: Product[],
+    allProducts: Product[],
+    getProducts: () => Promise<ProductsResponse | undefined>,
+     getAllProducts: () => Promise<Product[] | undefined>,
+    isLoading: boolean,
+    getProductById: (id: string) => Promise<Product>
 
 }
 export const useProductsStore = create<ProductsState>((set, get) => ({
-    products : [],
-    isLoading : true,
-    getProducts : async () => {
-   
-        const {data} = await axios.get<ProductsResponse>('/store/products');
-        set((state) => ({
-            ...state,
-            isLoading : false,
-            products : data.products
-        }))
-        
-        return data
+    products: [],
+    allProducts: [],
+    isLoading: true,
+    getProducts: async () => {
+        try {
+
+            const { data } = await axios.get<ProductsResponse>('/store/products');
+            set((state) => ({
+                ...state,
+                isLoading: false,
+                products: data.products
+            }))
+
+            return data
+        } catch (error) {
+
+        }
     },
-    getProductById : async(id : string) => {
+    getAllProducts: async () => {
+        try {
+            const { data } = await axios.get<ProductsResponse>('/store/all_products')
+            set((state)=>({
+                ...state,
+                allProducts : data.allProducts
+            }))
+            return data.allProducts
+        } catch (error) {
+            console.log(error)
+
+        }
+
+    },
+    getProductById: async (id: string) => {
         set({
-            isLoading : true
+            isLoading: true
         })
-        const {data} = await axios.get<Product>(`/store/product/${id}`);
+        const { data } = await axios.get<Product>(`/store/product/${id}`);
         set({
-            isLoading : false
+            isLoading: false
         })
         return data
     }

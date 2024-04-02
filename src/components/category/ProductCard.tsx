@@ -7,6 +7,7 @@ import { formatQuantity } from '../../helpers/formatQuanity'
 import { StackRootParams } from '../../routes/Navigator'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { useCartStore } from '../../store/cart/useCart'
+import { useAuthStore } from '../../store/useAuth'
 import { useNavigation } from '@react-navigation/native'
 import { createOrder } from '../../config/adapters/createOrder'
 
@@ -23,7 +24,7 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
     const { updateOrderById, addToCart, cart } = useCartStore()
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
+    const {status} = useAuthStore()
     const hadleAddToCart = async (id: string): Promise<void> => {
         const order = createOrder(product, 1, id);
         const orderFind = cart.find(order => order.ProductId === id);
@@ -39,7 +40,6 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
             setIsLoading(false)
         }
     };
-
 
     return (
         <>
@@ -86,7 +86,13 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
                     <Layout style={style.sectionBtns}>
                         <Pressable
                             style={style.btnAdd}
-                            onPress={() => hadleAddToCart(product.id!)}
+                            onPress={() => {
+                                if(status === 'unauthenticated' || status === 'checking'){
+                                    navigate('LoginScreen')
+                                    return
+                                }
+                                hadleAddToCart(product.id!)
+                            }}
                         >
                             {isLoading && product.id! ? (
                                 <ActivityIndicator color='#fff' size={30} />

@@ -13,7 +13,8 @@ export interface CartState {
     deleteOrderById: (id: string) => Promise<void>,
     updateOrderById: (id: string, order: Order) => Promise<void>
     isLoading: boolean,
-    success: boolean
+    success: boolean,
+    clearCart : () => void
 
 };
 
@@ -120,4 +121,10 @@ export const useCartStore = create<CartState>((set, get) => ({
             console.log(error)
         }
     },
+    clearCart : () => {
+        set({
+            cart : [],
+            
+        })
+    }
 }))

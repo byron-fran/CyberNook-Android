@@ -1,23 +1,27 @@
 import LayoutMain from '../../layouts/LayoutMain';
 import { useEffect, useState } from 'react';
 import { useCartStore } from '../../store/cart/useCart';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text ,Button } from '@ui-kitten/components';
 import Loading from '../../components/loading/Loading';
-import { Image, Pressable, StyleSheet, Modal, Alert, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { formatQuantity } from '../../helpers/formatQuanity';
 import { generateId } from '../../helpers/generateId';
-import { Button } from '@ui-kitten/components';
 import ModalTotalPay from '../../components/cart/ModalTotalPay';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { TabRootParams } from '../../tabs/BottomTabs';
 
-const CartScreen = () => {
-    const { getCart, cart, isLoading, deleteOrderById } = useCartStore();
+interface Props extends BottomTabScreenProps<TabRootParams, 'CartScreen'>{};
 
-  
+const CartScreen = ({navigation, route} : Props) => {
+    const {  cart, isLoading, deleteOrderById } = useCartStore();
+
+
     const handleRemoveToCart = async (id: string): Promise<void> => {
         await deleteOrderById(id)
     };
     const [modalVisible, setModalVisible] = useState(false);
+
     return (
         <LayoutMain>
             {isLoading
@@ -114,7 +118,9 @@ const styles = StyleSheet.create({
     btnSeeTotal: {
         backgroundColor: '#4F46E5',
         borderWidth: 0,
-        marginTop: 30
+        marginTop: 30,
+        width : '90%',
+        marginHorizontal : '5%',
     },
     containerNoCart : {
         flex : 1, 

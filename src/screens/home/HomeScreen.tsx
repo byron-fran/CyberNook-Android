@@ -11,25 +11,35 @@ import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '../../store/useAuth'
 import { Text } from '@ui-kitten/components'
 import Loading from '../../components/loading/Loading'
+import { useCartStore } from '../../store/cart/useCart'
 
 interface Props extends StackScreenProps<StackRootParams, 'HomeScreen'> { }
 
 const HomeScreen = ({ navigation }: Props) => {
     const { user, status } = useAuthStore()
     const { getProducts } = useProductsStore();
-
-    const { data , isLoading, refetch } = useQuery({
+    
+    const { cart, getCart } = useCartStore();
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => await getProducts(),
         staleTime: 100 * 60 * 60
-    })
-    if(isLoading) return <Loading/>;
-    
+    });
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            getCart();
+            return
+        };
+
+    }, [cart.length, status])
+    if (isLoading) return <Loading />;
+
     return (
         <>
             <ScrollView >
                 <SearchBar />
-                <ProductsInOffer 
+                <ProductsInOffer
                     isLoading={isLoading}
                     products={data?.products!} />
                 <Category />

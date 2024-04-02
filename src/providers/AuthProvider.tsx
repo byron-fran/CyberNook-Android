@@ -28,7 +28,8 @@ const AuthProvider = ({children} : PropsWithChildren) => {
                 })
             }
         }
-    }, [status])
+    }, [status]);
+    
     return (
         <>
             {children}   
