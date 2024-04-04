@@ -16,19 +16,29 @@ import { colors } from '../../colors/colors';
 const SearchBar = () => {
 
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
-    const {getAllProducts} = useProductsStore()
+    const { getAllProducts } = useProductsStore()
     const { status } = useAuthStore();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const {data : all_products = [], isLoading} = useQuery({
-        queryKey :[ 'all_products'],
-        queryFn : async () => await getAllProducts(),
-        staleTime : 100 * 60 * 60
+    const { data: allProducts = [], isLoading } = useQuery({
+        queryKey: ['all_products'],
+        queryFn: async () => await getAllProducts(),
+        staleTime: 100 * 60 * 60
     });
+
 
     const onCloseBTN = () => {
         setSearchTerm('')
-    }
+    };
+    
+    const listProductSearch = allProducts.filter(product => {
+        if (searchTerm.trim().length > 0) {
+            return product.name.toLowerCase().includes(searchTerm.trim())
+
+        }
+    });
+
+  
     return (
         <>
             <View style={styles.bgHeader}>
@@ -47,16 +57,21 @@ const SearchBar = () => {
                 </View>
 
                 <Input
-                    accessoryLeft={() => <Icon name='search-outline' size={25} color={colors.gray}/>}
-                    style={styles.input}
+                    accessoryLeft={() => 
+                        <Icon name='search-outline' 
+                        size={25} 
+                        color={colors.gray} 
+                        />}
+                    style={[styles.input, {position : 'absolute', top :32}]}
                     placeholder='Search for anything'
                     placeholderTextColor={colors.gray}
-                    accessoryRight={() =>  
-                        <Icon 
+                    accessoryRight={() =>
+                        <Icon
                             onPress={onCloseBTN}
-                            name='close-circle-outline' 
-                            size={25} 
-                            color={colors.gray}/>}
+                            name='close-circle-outline'
+                            size={25}
+                            color={colors.gray} 
+                            />}
                     value={searchTerm}
                     onChangeText={(value) => setSearchTerm(value)}
                 />

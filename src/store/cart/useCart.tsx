@@ -14,7 +14,7 @@ export interface CartState {
     updateOrderById: (id: string, order: Order) => Promise<void>
     isLoading: boolean,
     success: boolean,
-    clearCart : () => void
+    clearCart: () => void
 
 };
 
@@ -49,11 +49,11 @@ export const useCartStore = create<CartState>((set, get) => ({
             console.log(error)
         }
     },
-    getCart: async () : Promise<Order[] | undefined>  => {
+    getCart: async (): Promise<Order[] | undefined> => {
         try {
 
             const { data } = await axios.get<Order[]>('/list_order');
-        
+
             set({
                 cart: data,
 
@@ -64,14 +64,15 @@ export const useCartStore = create<CartState>((set, get) => ({
         }
     },
     updateOrderById: async (id: string, newOrder: Order) => {
+
         try {
             set((state) => ({
                 ...state,
                 isLoading: true
             }));
-       
-           const {data} = await axios.put(`/order/${id}`, newOrder);
 
+            const { data } = await axios.put(`/order/${id}`, newOrder);
+            console.log(data)
             const orderFind = get().cart.find(order => order.id === id);
 
             const ordersUpdate = get().cart.map(order => {
@@ -121,10 +122,10 @@ export const useCartStore = create<CartState>((set, get) => ({
             console.log(error)
         }
     },
-    clearCart : () => {
+    clearCart: () => {
         set({
-            cart : [],
-            
+            cart: [],
+
         })
     }
 }))

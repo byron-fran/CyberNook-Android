@@ -1,4 +1,4 @@
-import { Order } from "../../store/cart/useCart";
+import { Order } from "../store/cart/useCart";
 
 export const createOrder = (product : Order,quantity : number, idProduct : string) : Order => {
     const order: Order = {

@@ -32,8 +32,11 @@ const HomeScreen = ({ navigation }: Props) => {
             return
         };
 
-    }, [cart.length, status])
+    }, [cart.length, status]);
+
+
     if (isLoading) return <Loading />;
+ 
 
     return (
         <>

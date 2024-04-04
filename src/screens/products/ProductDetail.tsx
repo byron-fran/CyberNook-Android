@@ -13,7 +13,7 @@ import { Order, useCartStore } from '../../store/cart/useCart';
 import { useAuthStore } from '../../store/useAuth';
 import { Product } from '../../interfaces/products';
 import useToastAnimation from '../../hooks/animations/useToast';
-import { createOrder } from '../../config/adapters/createOrder';
+import { createOrder } from '../../utilities/createOrder';
 
 interface Props extends StackScreenProps<StackRootParams, 'ProductDetail'> { };
 
@@ -112,7 +112,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                                 <Pressable
                                     style={[styles.btnAdd,]}
                                     onPress={() => {
-                                        if (status === 'unauthenticated') {
+                                        if (status === 'unauthenticated' || status === 'checking') {
                                             navigation.navigate('LoginScreen')
                                             return
                                         }

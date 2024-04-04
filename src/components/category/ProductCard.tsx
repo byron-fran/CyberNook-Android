@@ -9,7 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { useCartStore } from '../../store/cart/useCart'
 import { useAuthStore } from '../../store/useAuth'
 import { useNavigation } from '@react-navigation/native'
-import { createOrder } from '../../config/adapters/createOrder'
+import { createOrder } from '../../utilities/createOrder'
 
 
 interface Props {
