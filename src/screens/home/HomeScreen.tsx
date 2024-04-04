@@ -9,22 +9,16 @@ import ProductsInOffer from '../../components/products/ProductsInOffer'
 import Category from '../../components/category/Category'
 import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '../../store/useAuth'
-import { Text } from '@ui-kitten/components'
 import Loading from '../../components/loading/Loading'
 import { useCartStore } from '../../store/cart/useCart'
+import Navbar from '../../components/nav/NavBar'
 
 interface Props extends StackScreenProps<StackRootParams, 'HomeScreen'> { }
 
 const HomeScreen = ({ navigation }: Props) => {
-    const { user, status } = useAuthStore()
-    const { getProducts } = useProductsStore();
-    
+    const {  status } = useAuthStore()
+    const { isLoading } = useProductsStore();
     const { cart, getCart } = useCartStore();
-    const { data, isLoading, refetch } = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => await getProducts(),
-        staleTime: 100 * 60 * 60
-    });
 
     useEffect(() => {
         if (status === 'authenticated') {
@@ -34,17 +28,16 @@ const HomeScreen = ({ navigation }: Props) => {
 
     }, [cart.length, status]);
 
-
     if (isLoading) return <Loading />;
  
 
     return (
         <>
-            <ScrollView >
+            <ScrollView style={{ backgroundColor : '#fff'}} >
                 <SearchBar />
+                <Navbar/>
                 <ProductsInOffer
-                    isLoading={isLoading}
-                    products={data?.products!} />
+                    isLoading={isLoading} />
                 <Category />
                 <About />
             </ScrollView>

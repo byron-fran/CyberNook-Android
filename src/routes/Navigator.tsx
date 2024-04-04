@@ -9,8 +9,10 @@ import CategoryScreen from '../screens/category/CategoryScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import AddressScreen from '../screens/address/AdressScreen';
 import AddReviewScreen from '../screens/reviews/AddReviewScree';
+import ProductsScreen from '../screens/products/ProductsScreen';
 
-export type StackRootParams ={
+export type StackRootParams = {
+
     LoginScreen : undefined,
     RegisterScreen : undefined,
     HomeScreen : undefined,
@@ -18,8 +20,14 @@ export type StackRootParams ={
     CategoryScreen : {category : string},
     ProfileScreen : undefined,
     AddressScreen : undefined,
-    AddReviewScreen : {productId : string}
-}
+    AddReviewScreen : {productId : string},
+    ProductsScreen : {  
+            category? : string, 
+            mark? : string, 
+            page? : number
+    },
+    
+}   
 
 const Stack = createNativeStackNavigator<StackRootParams>()
 
@@ -36,7 +44,8 @@ const AppNavigator = () => {
             <Stack.Screen name='CategoryScreen' component={CategoryScreen}/>
             <Stack.Screen name='ProfileScreen' component={ProfileScreen}/>
             <Stack.Screen name='AddressScreen' component={AddressScreen} />
-            <Stack.Screen name='AddReviewScreen' component={AddReviewScreen}/>       
+            <Stack.Screen name='AddReviewScreen' component={AddReviewScreen}/>
+            <Stack.Screen name='ProductsScreen' component={ProductsScreen}/>       
         </Stack.Navigator>
     )
 

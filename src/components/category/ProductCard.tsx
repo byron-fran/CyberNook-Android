@@ -1,7 +1,7 @@
 import { Product } from '../../interfaces/products'
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { Layout, Text } from '@ui-kitten/components'
-import { ActivityIndicator, Image, Pressable, StyleSheet } from 'react-native'
+import { ActivityIndicator, Image, Pressable, StyleSheet, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { formatQuantity } from '../../helpers/formatQuanity'
 import { StackRootParams } from '../../routes/Navigator'
@@ -24,7 +24,8 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
     const { updateOrderById, addToCart, cart } = useCartStore()
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const {status} = useAuthStore()
+    const {status} = useAuthStore();
+
     const hadleAddToCart = async (id: string): Promise<void> => {
         const order = createOrder(product, 1, id);
         const orderFind = cart.find(order => order.ProductId === id);
@@ -44,17 +45,17 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
     return (
         <>
 
-            <Layout style={style.card}>
+            <View style={style.card}>
                 <Pressable
                     onPress={() => navigate('ProductDetail', { id: product.id! })}
                     style={{ flex: 1 }}>
                     <Image
 
                         style={style.image}
-                        source={{ uri: product.image }}
+                        source={{ uri: product.image !== null ? product.image : 'https://m.media-amazon.com/images/I/51bryY47IFL._SL1080_.jpg'  }}
                     />
                 </Pressable>
-                <Layout
+                <View
                     style={style.sectionInfo}
                 >
                     <Text
@@ -63,27 +64,27 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
                         {product.name}
                     </Text>
                     {/* Section Prices */}
-                    <Layout style={style.sectionAllPrices}>
+                    <View style={style.sectionAllPrices}>
                         {product.discount > 0 && (
                             <Text style={style.textPriceOffer}>{formatQuantity(product.price - (product.price * (product.discount / 100)))}</Text>
                         )}
-                        <Layout style={style.sectionPrices}>
+                        <View style={style.sectionPrices}>
                             {product.discount > 0 && (
                                 <Text>On offer</Text>
                             )}
                             <Text style={style.textPrice}>{formatQuantity(product.price)}</Text>
-                        </Layout>
-                    </Layout>
+                        </View>
+                    </View>
                     {/* Section Shippjng */}
-                    <Layout style={style.sectionShipping}>
+                    <View style={style.sectionShipping}>
                         <Image
                             style={style.imgShipping}
                             source={require('../../assets/shipping.png')}
                         />
                         <Text>Fast Shipping</Text>
-                    </Layout>
+                    </View>
                     {/* <Image/> */}
-                    <Layout style={style.sectionBtns}>
+                    <View style={style.sectionBtns}>
                         <Pressable
                             style={style.btnAdd}
                             onPress={() => {
@@ -105,9 +106,9 @@ const ProductCard: FC<Props> = ({ product, iconName, setIsFavorite, isFavorite }
                             onPress={() => setIsFavorite(!isFavorite)}>
                             <Icon name={iconName} color='#fff' size={30} />
                         </Pressable>
-                    </Layout>
-                </Layout>
-            </Layout>
+                    </View>
+                </View>
+            </View>
         </>
     )
 
@@ -117,7 +118,8 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         gap: 20,
         marginVertical: 25,
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        backgroundColor : '#fff'
 
     },
     image: {

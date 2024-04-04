@@ -5,16 +5,15 @@ import { Text } from '@ui-kitten/components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation, NavigatorScreenParams } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
-
+import { useProductsStore } from '../../store/useProducts';
 
 
 interface Props {
-    products : Product[],
     isLoading : boolean
 }
 
-const ProductsInOffer: FC<Props> = ({ products, isLoading }) => {
-
+const ProductsInOffer: FC<Props> = ({  isLoading }) => {
+    const {allProducts : products} = useProductsStore()
     const navigate = useNavigation<StackNavigationProp<StackRootParams>>();
 
    

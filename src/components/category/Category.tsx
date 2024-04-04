@@ -23,7 +23,7 @@ const Category = () => {
                         {categories?.length > 0 && categories.map(category => (
                             <View style={styles.card} key={category.id}>
                                 <Text style={styles.nameCategory}>{category.name}</Text>
-                                <Pressable onPress={() => navigate.navigate('CategoryScreen', {category : category.name})}>
+                                <Pressable onPress={() => navigate.navigate('ProductsScreen', {category : category.name})}>
                                     <Image style={styles.imgCategory} source={{ uri: category.image }} />
                                 </Pressable>
                             </View>

@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         width: '90%',
         borderWidth: 1,
         marginHorizontal: '5%',
-        borderRadius: 5
+        borderRadius: 5,
+        backgroundColor : '#fff'
     },
     inputCard: {
         paddingHorizontal: 20,

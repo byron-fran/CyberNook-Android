@@ -18,12 +18,7 @@ interface Props extends BottomTabScreenProps<TabRootParams, 'CartScreen'> { };
 
 const CartScreen = ({ navigation, route }: Props) => {
     const { cart, isLoading, deleteOrderById, updateOrderById } = useCartStore();
-    const [] = useState()
-
-
     const [modalVisible, setModalVisible] = useState(false);
-
-
 
     return (
         <LayoutMain>

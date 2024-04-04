@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { FlatList, Image, StyleSheet, View, Pressable } from 'react-native'
 import { Review } from '../../interfaces/Review'
-import { Layout, Text, Avatar } from '@ui-kitten/components';
+import { Text, Avatar } from '@ui-kitten/components';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useReviewStore } from '../../store/reviews/useReviewsStore';
 import Loading from '../loading/Loading';
@@ -42,7 +42,7 @@ const Reviews: FC<{ productId: string }> = ({ productId }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Reviews {reviews.length}</Text>
-            <Layout style={styles.containerButton}>
+            <View style={styles.containerButton}>
                 {!foundComment && (
                     <Pressable
                         onPress={() => {
@@ -58,8 +58,8 @@ const Reviews: FC<{ productId: string }> = ({ productId }) => {
                 )
                 }
 
-            </Layout>
-            <Layout >
+            </View>
+            <View >
                 {reviews.length > 0 && reviews.map(review => {
 
                     const date = new Date(review.updatedAt!).toLocaleDateString('en-Us', {
@@ -69,31 +69,31 @@ const Reviews: FC<{ productId: string }> = ({ productId }) => {
                     })
 
                     return (
-                        <Layout key={review.id}>
-                            <Layout style={styles.infoReview}>
+                        <View key={review.id}>
+                            <View style={styles.infoReview}>
                                 <Avatar size='large' source={require('../../assets/usuario.png')} />
-                                <Layout>
+                                <View>
                                     <Text style={styles.textUser}>{review.User?.name!}</Text>
                                     <Text style={styles.textDate}>{date}</Text>
-                                </Layout>
+                                </View>
 
-                            </Layout>
+                            </View>
                             {/* stars */}
-                            <Layout style={styles.stars}>
+                            <View style={styles.stars}>
                                 {Array.from({ length: review.stars }, (_, index) => (
                                     <Icon name='star' size={20} color='#F1C40F' key={index + Math.random().toFixed()} />
                                 ))}
 
-                            </Layout>
+                            </View>
                             {/* comment */}
-                            <Layout>
+                            <View>
                                 <Text style={styles.comment}>{review.comment}</Text>
-                            </Layout>
-                        </Layout>
+                            </View>
+                        </View>
                     )
                 })}
 
-            </Layout>
+            </View>
             <Text></Text>
         </View>
 

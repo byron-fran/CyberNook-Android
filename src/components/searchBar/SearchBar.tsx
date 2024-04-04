@@ -2,7 +2,7 @@ import { View, StyleSheet, Pressable, DrawerLayoutAndroid, Button } from 'react-
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StackRootParams } from '../../routes/Navigator'
-import { Text, Input } from '@ui-kitten/components';
+import { Text, Input, Select, SelectItem } from '@ui-kitten/components';
 import { useAuthStore } from '../../store/useAuth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import MenuItemsOverFlow from '../menu/MenuItems';
@@ -16,7 +16,7 @@ import { colors } from '../../colors/colors';
 const SearchBar = () => {
 
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
-    const { getAllProducts } = useProductsStore()
+    const { getAllProducts, getProducts } = useProductsStore()
     const { status } = useAuthStore();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,20 +30,47 @@ const SearchBar = () => {
     const onCloseBTN = () => {
         setSearchTerm('')
     };
-    
-    const listProductSearch = allProducts.filter(product => {
-        if (searchTerm.trim().length > 0) {
-            return product.name.toLowerCase().includes(searchTerm.trim())
 
+    // filter products by name
+    const productsFilterByName = allProducts.filter(product => {
+        if (searchTerm.trim().length >= 1) {
+            return product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
         }
     });
 
-  
+    // limit search results to 10
+    const productsFilterByNameLimit = productsFilterByName.slice(0, 10);
+
+    // filter products by category
+    const productsFilterByCategory = allProducts.filter(product => {
+        if (searchTerm.trim().length >= 1) {
+            return product.category.toLowerCase().includes(searchTerm.trim());
+        }
+    });
+
+    // limit search results to 10
+    const productsFilterByCategoryLimit = productsFilterByCategory.slice(0, 10);
+
+
+    // filter products by mark
+    const producstFilterByMark = allProducts.filter(product => {
+        if (searchTerm.trim().length >= 1) {
+
+            return product.mark?.toLowerCase().includes(searchTerm.trim())
+        }
+    })
+
+    // limit search results to 10
+    const producstFilterByMarkLimit = producstFilterByMark.slice(0, 10);
+
     return (
         <>
             <View style={styles.bgHeader}>
                 <View style={styles.navBar}>
-                    <Pressable onPress={() => navigate('HomeScreen')}><Text style={styles.title}>CyberNook</Text></Pressable>
+                    <Pressable onPress={() => {
+                        navigate('HomeScreen')
+                        getProducts()
+                        }}><Text style={styles.title}>CyberNook</Text></Pressable>
                     {status === 'authenticated'
                         ?
                         <MenuItemsOverFlow />
@@ -57,12 +84,12 @@ const SearchBar = () => {
                 </View>
 
                 <Input
-                    accessoryLeft={() => 
-                        <Icon name='search-outline' 
-                        size={25} 
-                        color={colors.gray} 
+                    accessoryLeft={() =>
+                        <Icon name='search-outline'
+                            size={25}
+                            color={colors.gray}
                         />}
-                    style={[styles.input, {position : 'absolute', top :32}]}
+                    style={[styles.input, { position: 'absolute', top: 32 }]}
                     placeholder='Search for anything'
                     placeholderTextColor={colors.gray}
                     accessoryRight={() =>
@@ -70,13 +97,14 @@ const SearchBar = () => {
                             onPress={onCloseBTN}
                             name='close-circle-outline'
                             size={25}
-                            color={colors.gray} 
-                            />}
+                            color={colors.gray}
+                        />}
                     value={searchTerm}
                     onChangeText={(value) => setSearchTerm(value)}
                 />
 
             </View>
+
         </>
     )
 

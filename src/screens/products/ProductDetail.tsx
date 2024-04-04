@@ -2,7 +2,7 @@ import { StackRootParams } from '../../routes/Navigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useProductsStore } from '../../store/useProducts';
 import Loading from '../../components/loading/Loading';
-import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Layout, Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import SearchBar from '../../components/searchBar/SearchBar';
 import { useEffect, useState } from 'react';
@@ -81,13 +81,13 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                 {isLoading || product.image === undefined ?
                     <Loading heightContainer={500} />
                     : (
-                        <Layout style={styles.container}>
-                            <Layout style={styles.card}>
+                        <View style={styles.container}>
+                            <View style={styles.card}>
                                 <Text style={styles.title}>{product?.name}</Text>
 
                                 <Image style={styles.image} source={{ uri: product.image }} />
 
-                                <Layout style={styles.section}>
+                                <View style={styles.section}>
                                     {/* Selects quantity */}
                                     <Select
                                         style={styles.select}
@@ -101,14 +101,14 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                                         ))}
                                     </Select>
 
-                                    <Layout style={styles.sectionPrice}>
+                                    <View style={styles.sectionPrice}>
                                         {product.discount > 0 && (
 
                                             <Text style={styles.textNoDiscount}>{formatQuantity(product.price)}</Text>
                                         )}
                                         <Text style={styles.price}>{formatQuantity(product.price - (product.price * (product.discount / 100)))} </Text>
-                                    </Layout>
-                                </Layout>
+                                    </View>
+                                </View>
                                 <Pressable
                                     style={[styles.btnAdd,]}
                                     onPress={() => {
@@ -129,16 +129,16 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                                     </>}
                                 </Pressable>
                                 {/* Description of the product */}
-                                <Layout>
+                                <View>
                                     <Text style={styles.textDescription}>Description</Text>
                                     <Text>{product.description}</Text>
-                                </Layout>
+                                </View>
                                 {/* Reviews */}
-                                <Layout>
+                                <View>
                                     <Reviews productId={product.id!} />
-                                </Layout>
-                            </Layout>
-                        </Layout>
+                                </View>
+                            </View>
+                        </View>
                     )
                 }
 

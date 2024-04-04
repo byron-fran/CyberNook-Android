@@ -56,7 +56,10 @@ const BottomTabs = () => {
                 component={AppNavigator}
                 options={{
                     title: ''
-                }} />
+                }}
+                
+                />
+
             <Tab.Screen
 
                 name='CartScreen'
