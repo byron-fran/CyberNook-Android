@@ -1,11 +1,11 @@
-import { View, Text, ScrollView, Pressable } from 'react-native'
+import { useEffect, useState } from 'react';
+import { View, Text, Pressable } from 'react-native';
 import { Input } from '@ui-kitten/components'
 import LayoutMain from '../../layouts/LayoutMain'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StackRootParams } from '../../routes/Navigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { stylesAuth as style } from './styles';
-import { useEffect, useState } from 'react';
 import { User } from '../../interfaces/User';
 import { useAuthStore } from '../../store/useAuth';
 import { useForm, Controller } from "react-hook-form";
@@ -28,7 +28,7 @@ const RegisterScreen = ({ navigation }: Props) => {
             return
         }
     };
-    
+
     useEffect(() => {
 
         return () => {
