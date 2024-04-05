@@ -20,6 +20,7 @@ export interface AuthState {
     checkStatus: () => Promise<boolean | undefined>,
     logout: () => Promise<void>,
     updateProfile: (user: User) => Promise<void>,
+    clearErrors : () => void
     //Error Auth
     errorLogin: string,
     errorRegister: string,
@@ -177,6 +178,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             console.log(error)
         }
 
+    },
+    clearErrors : () => {
+        set((state) => ({
+            ...state,
+            errorLogin :'',
+            errorRegister : '',
+            
+        }))
     }
 
 }))

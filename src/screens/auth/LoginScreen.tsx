@@ -18,7 +18,7 @@ interface UserLogin {
 
 const LoginScreen = ({ navigation }: Props) => {
 
-    const { login, errorLogin } = useAuthStore();
+    const { login, errorLogin , clearErrors : clearErrorsLogin} = useAuthStore();
     const [passwordSecure, setSecurePassword] = useState(true)
 
     const { control, formState: { errors }, handleSubmit, setError, clearErrors } = useForm({
@@ -32,7 +32,15 @@ const LoginScreen = ({ navigation }: Props) => {
             navigation.navigate('HomeScreen')
             return
         }
-    }
+    };
+    
+    useEffect(() => {
+
+        return () => {
+            clearErrorsLogin()
+        };
+
+    }, [])
 
     return (
         <LayoutMain>
