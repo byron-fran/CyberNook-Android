@@ -5,7 +5,7 @@ import { Text } from '@ui-kitten/components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation, NavigatorScreenParams } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
-import { useProductsStore } from '../../store/useProducts';
+import { useProductsStore } from '../../store/products/useProducts';
 import Loading from '../loading/Loading';
 
 

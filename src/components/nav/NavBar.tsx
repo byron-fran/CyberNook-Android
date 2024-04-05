@@ -4,10 +4,10 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { StackRootParams } from '../../routes/Navigator'
 import { IndexPath, OverflowMenu, MenuItem } from '@ui-kitten/components'
 import { colors } from '../../colors/colors'
-import { useCategoryStore } from '../../store/useCategoryStore'
+import { useCategoryStore } from '../../store/category/useCategoryStore'
 import { useMarksStore } from '../../store/marks/useMarksStore'
 import { useEffect, useState } from 'react'
-import { useProductsStore } from '../../store/useProducts'
+import { useProductsStore } from '../../store/products/useProducts'
 
 const Navbar = () => {
 
@@ -15,7 +15,7 @@ const Navbar = () => {
     const { categories } = useCategoryStore();
     const { getMarks, marks, isLoading } = useMarksStore();
     const {getProducts} = useProductsStore();
-    
+
     const [selectedIndexCategory, setSelectedIndexCategory] = useState<IndexPath>(new IndexPath(0));
     const [selectedIndexMark, setSelectedIndexMark] = useState<IndexPath>(new IndexPath(0));
 

@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect } from 'react'
-import { useAuthStore } from '../store/useAuth'
+import { useAuthStore } from '../store/auth/useAuth'
 import { StackRootParams } from '../routes/Navigator'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'

@@ -1,8 +1,8 @@
-import { User } from "../interfaces/User";
-import { AuthStatus } from "../interfaces/AuthStatus";
+import { User } from "../../interfaces/User";
+import { AuthStatus } from "../../interfaces/AuthStatus";
 import { create } from "zustand";
-import { StorageAdapter } from "../config/adapters/storgeAdapter";
-import { cybernookApi as axios } from "../config/api/cybernookApi";
+import { StorageAdapter } from "../../config/adapters/storgeAdapter";
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
 import { AxiosError } from "axios";
 
 

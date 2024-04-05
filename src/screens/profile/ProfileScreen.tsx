@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, ToastAndroid, StatusBar, Image, ActivityIndicator, View } from 'react-native';
 import LayoutMain from '../../layouts/LayoutMain'
-import { useAuthStore } from '../../store/useAuth';
+import { useAuthStore } from '../../store/auth/useAuth';
 import { Text, Layout, Input, Button } from '@ui-kitten/components';
 import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -17,9 +17,13 @@ const ProfileScreen = () => {
     const [disabledName, setDisabledName] = useState(true);
     const [disabledEmail, setDisabledEmail] = useState(true);
     const [disabledPhone, setDisabledPhone] = useState(true);
-    const { control, formState: { errors }, handleSubmit, setError, clearErrors } = useForm({
-        defaultValues: user
-    });
+    const { 
+            control, 
+            formState: { errors }, 
+            handleSubmit,
+            setError, 
+            clearErrors,
+            } = useForm ( { defaultValues: user});
 
     const { CustomToast, showToast } = useToastAnimation(
         {
@@ -129,7 +133,6 @@ const ProfileScreen = () => {
                                                 clearErrors('email');
                                             }
                                         }}
-
 
                                         value={value}
                                         placeholder='Example@gmail.com'

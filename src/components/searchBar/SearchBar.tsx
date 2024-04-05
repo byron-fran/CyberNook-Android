@@ -3,10 +3,10 @@ import { View, StyleSheet, Pressable, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { StackRootParams } from '../../routes/Navigator'
 import { Text, Input, Select, SelectItem } from '@ui-kitten/components';
-import { useAuthStore } from '../../store/useAuth';
+import { useAuthStore } from '../../store/auth/useAuth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import MenuItemsOverFlow from '../menu/MenuItems';
-import { useProductsStore } from '../../store/useProducts';
+import { useProductsStore } from '../../store/products/useProducts';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { colors } from '../../colors/colors';
 import ListSearch from './ListSearch';

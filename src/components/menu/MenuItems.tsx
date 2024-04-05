@@ -5,9 +5,9 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { StackRootParams } from '../../routes/Navigator';
-import { useAuthStore } from '../../store/useAuth'
+import { useAuthStore } from '../../store/auth/useAuth'
 import { useCartStore } from '../../store/cart/useCart'
-import { useAddressStore } from '../../store/useAddress';
+import { useAddressStore } from '../../store/address/useAddress';
 
 const MenuItemsOverFlow = () => {
 

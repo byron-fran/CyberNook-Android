@@ -7,7 +7,7 @@ import { formatQuantity } from '../../helpers/formatQuanity'
 import { StackRootParams } from '../../routes/Navigator'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { useCartStore } from '../../store/cart/useCart'
-import { useAuthStore } from '../../store/useAuth'
+import { useAuthStore } from '../../store/auth/useAuth'
 import { useNavigation } from '@react-navigation/native'
 import { createOrder } from '../../utilities/createOrder'
 

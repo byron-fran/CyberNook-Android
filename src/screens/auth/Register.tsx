@@ -7,7 +7,7 @@ import { StackRootParams } from '../../routes/Navigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { stylesAuth as style } from './styles';
 import { User } from '../../interfaces/User';
-import { useAuthStore } from '../../store/useAuth';
+import { useAuthStore } from '../../store/auth/useAuth';
 import { useForm, Controller } from "react-hook-form";
 
 interface Props extends StackScreenProps<StackRootParams, 'RegisterScreen'> { };
@@ -70,7 +70,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                                     }
                                 }}
                                 value={value}
-                                placeholder='Example@gmail.com'
+                                placeholder='Examp.le@gmail.com'
                                 accessoryLeft={<Icon name='mail-outline' size={25} />}
                             />
                         )}

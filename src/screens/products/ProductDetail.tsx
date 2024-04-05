@@ -1,6 +1,6 @@
 import { StackRootParams } from '../../routes/Navigator';
 import { StackScreenProps } from '@react-navigation/stack';
-import { useProductsStore } from '../../store/useProducts';
+import { useProductsStore } from '../../store/products/useProducts';
 import Loading from '../../components/loading/Loading';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Layout, Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
@@ -10,7 +10,7 @@ import { formatQuantity } from '../../helpers/formatQuanity';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Reviews from '../../components/reviews/Reviews';
 import { Order, useCartStore } from '../../store/cart/useCart';
-import { useAuthStore } from '../../store/useAuth';
+import { useAuthStore } from '../../store/auth/useAuth';
 import { Product } from '../../interfaces/products';
 import useToastAnimation from '../../hooks/animations/useToast';
 import { createOrder } from '../../utilities/createOrder';

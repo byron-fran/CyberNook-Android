@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { Category } from "../interfaces/Category";
-import { cybernookApi as axios} from "../config/api/cybernookApi";
+import { Category } from "../../interfaces/Category";
+import { cybernookApi as axios} from "../../config/api/cybernookApi";
 
 interface CategoryState {
     categories : Category[],

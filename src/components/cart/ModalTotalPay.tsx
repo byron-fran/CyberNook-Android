@@ -2,7 +2,7 @@ import { Layout, Text, Button} from '@ui-kitten/components';
 import { Modal, Pressable, StyleSheet } from 'react-native';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCartStore } from '../../store/cart/useCart';
-import { useAddressStore } from '../../store/useAddress';
+import { useAddressStore } from '../../store/address/useAddress';
 import { formatQuantity } from '../../helpers/formatQuanity';
 import { calculateTotalPrice } from '../../helpers/calculateTotalPrice';
 import { colors } from '../../colors/colors';

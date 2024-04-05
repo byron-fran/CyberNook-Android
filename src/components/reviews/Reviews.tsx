@@ -8,7 +8,7 @@ import Loading from '../loading/Loading';
 import { useNavigation } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useAuthStore } from '../../store/useAuth';
+import { useAuthStore } from '../../store/auth/useAuth';
 
 const Reviews: FC<{ productId: string }> = ({ productId }) => {
 

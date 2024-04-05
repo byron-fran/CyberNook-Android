@@ -6,7 +6,7 @@ import { StackRootParams } from '../../routes/Navigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { stylesAuth as style } from './styles';
 import { useEffect, useState } from 'react';
-import { useAuthStore } from '../../store/useAuth';
+import { useAuthStore } from '../../store/auth/useAuth';
 import { useForm, Controller } from "react-hook-form"
 
 interface Props extends StackScreenProps<StackRootParams, 'LoginScreen'> { };
@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }: Props) => {
             return
         }
     };
-    
+
     useEffect(() => {
 
         return () => {

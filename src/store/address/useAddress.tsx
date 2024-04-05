@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { cybernookApi as axios } from "../config/api/cybernookApi";
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
 import { AxiosError } from "axios";
-import { Address } from "../interfaces/Address";
+import { Address } from "../../interfaces/Address";
 
 
 

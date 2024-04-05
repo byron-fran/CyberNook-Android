@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import SearchBar from '../../components/searchBar/SearchBar'
-import { useProductsStore } from '../../store/useProducts'
+import { useProductsStore } from '../../store/products/useProducts'
 import Navbar from '../../components/nav/NavBar'
 import ProductCard from '../../components/category/ProductCard'
 import { useEffect, useState } from 'react';

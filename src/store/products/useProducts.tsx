@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { Product } from "../interfaces/products";
-import { cybernookApi as axios } from "../config/api/cybernookApi";
-import { ProductResponse } from "../interfaces/ProductResponse";
+import { Product } from "../../interfaces/products";
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
+import { ProductResponse } from "../../interfaces/ProductResponse";
 
 export type ProductsResponse = {
     products: Product[],
