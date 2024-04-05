@@ -1,31 +1,22 @@
-import { View, StyleSheet, Pressable, DrawerLayoutAndroid, Button } from 'react-native'
+import { useEffect, useState } from 'react';
+import { View, StyleSheet, Pressable, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StackRootParams } from '../../routes/Navigator'
 import { Text, Input, Select, SelectItem } from '@ui-kitten/components';
 import { useAuthStore } from '../../store/useAuth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import MenuItemsOverFlow from '../menu/MenuItems';
 import { useProductsStore } from '../../store/useProducts';
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { colors } from '../../colors/colors';
-
+import ListSearch from './ListSearch';
 
 const SearchBar = () => {
 
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
-    const { getAllProducts, getProducts } = useProductsStore()
+    const { getProducts, allProducts } = useProductsStore()
     const { status } = useAuthStore();
     const [searchTerm, setSearchTerm] = useState('');
-
-    const { data: allProducts = [], isLoading } = useQuery({
-        queryKey: ['all_products'],
-        queryFn: async () => await getAllProducts(),
-        staleTime: 100 * 60 * 60
-    });
-
 
     const onCloseBTN = () => {
         setSearchTerm('')
@@ -70,7 +61,7 @@ const SearchBar = () => {
                     <Pressable onPress={() => {
                         navigate('HomeScreen')
                         getProducts()
-                        }}><Text style={styles.title}>CyberNook</Text></Pressable>
+                    }}><Text style={styles.title}>CyberNook</Text></Pressable>
                     {status === 'authenticated'
                         ?
                         <MenuItemsOverFlow />
@@ -104,7 +95,17 @@ const SearchBar = () => {
                 />
 
             </View>
+            {/* Section list Searh */}
+            <ListSearch
+                producstFilterByMark={producstFilterByMark}
+                producstFilterByMarkLimit={producstFilterByMarkLimit}
+                productsFilterByCategory={productsFilterByCategory}
+                productsFilterByCategoryLimit={productsFilterByCategoryLimit}
+                productsFilterByName={productsFilterByName}
+                productsFilterByNameLimit={productsFilterByNameLimit}
+                setSearchTerm={setSearchTerm}
 
+            />
         </>
     )
 
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
     textLogin: {
         fontSize: 17,
         color: 'white'
-    }
+    },
+
 })
 export default SearchBar

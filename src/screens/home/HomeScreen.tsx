@@ -12,13 +12,15 @@ import { useAuthStore } from '../../store/useAuth'
 import Loading from '../../components/loading/Loading'
 import { useCartStore } from '../../store/cart/useCart'
 import Navbar from '../../components/nav/NavBar'
+import { Text } from 'react-native-svg'
 
 interface Props extends StackScreenProps<StackRootParams, 'HomeScreen'> { }
 
 const HomeScreen = ({ navigation }: Props) => {
     const {  status } = useAuthStore()
-    const { isLoading } = useProductsStore();
+    const { getAllProducts} = useProductsStore();
     const { cart, getCart } = useCartStore();
+
 
     useEffect(() => {
         if (status === 'authenticated') {
@@ -28,15 +30,21 @@ const HomeScreen = ({ navigation }: Props) => {
 
     }, [cart.length, status]);
 
-    if (isLoading) return <Loading />;
- 
+    const { data: allProducts = [], isLoading } = useQuery({
+        queryKey: ['all_products'],
+        queryFn: async () => await getAllProducts(),
+        staleTime: 100 * 60 * 60
+    });
 
+ 
     return (
         <>
             <ScrollView style={{ backgroundColor : '#fff'}} >
+                <Text>Hola</Text>
                 <SearchBar />
                 <Navbar/>
                 <ProductsInOffer
+                    allProducts={allProducts}
                     isLoading={isLoading} />
                 <Category />
                 <About />

@@ -14,7 +14,8 @@ const Navbar = () => {
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const { categories } = useCategoryStore();
     const { getMarks, marks, isLoading } = useMarksStore();
-    const {getProducts} = useProductsStore()
+    const {getProducts} = useProductsStore();
+    
     const [selectedIndexCategory, setSelectedIndexCategory] = useState<IndexPath>(new IndexPath(0));
     const [selectedIndexMark, setSelectedIndexMark] = useState<IndexPath>(new IndexPath(0));
 
@@ -130,8 +131,7 @@ const styles = StyleSheet.create({
     },
     navButton: {
         backgroundColor: colors.sky,
-        padding: 4,
-
+        padding: 7,
         borderRadius: 10,
         width: 115
     },

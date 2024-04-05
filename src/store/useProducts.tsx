@@ -7,7 +7,8 @@ export type ProductsResponse = {
     products: Product[],
     totalItems: number,
     currentPage: number,
-    allProducts: Product[]
+    allProducts: Product[],
+
 
 }
 export interface ProductsState {
@@ -17,12 +18,12 @@ export interface ProductsState {
     getAllProducts: () => Promise<Product[] | undefined>,
     isLoading: boolean,
     getProductById: (id: string) => Promise<Product>
-
+    clearProducts : () => void
 }
 export const useProductsStore = create<ProductsState>((set, get) => ({
     products: [],
     allProducts: [],
-    isLoading: true,
+    isLoading: false,
     getProducts: async (page?: number, category?: string, mark?: string) => {
         let url = `/store/products/?`;
         try {
@@ -39,11 +40,10 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
                     url += (category !== undefined ? '&' : '') + `mark=${mark}`;
                 }
             }
-
+     
             const { data } = await axios.get<ProductsResponse>(url);
             set((state) => ({
                 ...state,
-                isLoading: false,
                 products: data.products
             }))
 
@@ -54,9 +54,11 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
     },
     getAllProducts: async () => {
         try {
+  
             const { data } = await axios.get<ProductsResponse>('/store/all_products')
             set((state) => ({
                 ...state,
+   
                 allProducts: data.allProducts
             }))
             return data.allProducts
@@ -75,5 +77,10 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
             isLoading: false
         })
         return data
+    },
+    clearProducts  : () => {
+        set(({
+            products : []
+        }))
     }
 }))
