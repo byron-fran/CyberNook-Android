@@ -54,5 +54,10 @@ export const stylesAuth = StyleSheet.create({
         color : '#EF4444',
         marginTop : 10
 
+    },
+    errorText  : {
+        textAlign : 'center',
+        color : '#EF4444',
+        marginTop : 10
     }
 })
