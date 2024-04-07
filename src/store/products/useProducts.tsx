@@ -4,10 +4,15 @@ import { cybernookApi as axios } from "../../config/api/cybernookApi";
 import { ProductResponse } from "../../interfaces/ProductResponse";
 
 export type ProductsResponse = {
-    products: Product[],
-    totalItems: number,
-    currentPage: number,
+    products: Product[]
+    totalItems: number
+    currentPage: number
+    totalPages: number
+    nextPage: number
+    previousPage: number
     allProducts: Product[],
+
+
 
 
 }
@@ -17,35 +22,67 @@ export interface ProductsState {
     getProducts: (page?: number, category?: string, mark?: string) => Promise<ProductsResponse | undefined>,
     getAllProducts: () => Promise<Product[] | undefined>,
     isLoading: boolean,
-    getProductById: (id: string) => Promise<Product>
-    clearProducts : () => void
+    getProductById: (id: string) => Promise<Product>,
+
+    clearProducts: () => void
+
+    totalItems: number
+    currentPage: number
+    totalPages: number
+    nextPage: number
+    previousPage: number
+
+    resetPage: (page: number) => void,
+
+
+
+
 }
 export const useProductsStore = create<ProductsState>((set, get) => ({
     products: [],
     allProducts: [],
     isLoading: false,
-    getProducts: async (page?: number, category?: string, mark?: string) => {
-        let url = `/store/products/?`;
+    totalItems: get()?.allProducts.length,
+    currentPage: 1,
+    totalPages: 0,
+    nextPage: 0,
+    previousPage: 0,
+
+    getProducts: async (page: number = 1, category?: string, mark?: string) => {
+        
+        let url = `/store/products/?page=${page}`;
         try {
-            if (category !== undefined || mark !== undefined) {
-                // Construir la URL con los parámetros que están definidos
+            if (category || mark) {
 
+                if (category) {
 
-                if (category !== undefined) {
-                    url += `category=${category}`;
+                    url += `&category=${category}`;
                 }
-                if (mark !== undefined) {
-                    // Si mark está definido, y category también, agregar el separador "&"
-                    // de lo contrario, no se necesita el separador.
+                if (mark) {
+
                     url += (category !== undefined ? '&' : '') + `mark=${mark}`;
                 }
             }
-     
-            const { data } = await axios.get<ProductsResponse>(url);
             set((state) => ({
                 ...state,
-                products: data.products
+                isLoading : true
             }))
+            const { data } = await axios.get<ProductsResponse>(url);
+           
+
+            set((state) => ({
+                ...state,
+                products: data.products,
+                totalItems: data.totalItems,
+                currenPage: data.currentPage,
+                totalPages :data.totalPages,
+                nextPage : data.nextPage,
+                previousPage : data.previousPage,
+                isLoading : false
+
+
+            }))
+
 
             return data
         } catch (error) {
@@ -54,12 +91,13 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
     },
     getAllProducts: async () => {
         try {
-  
+
             const { data } = await axios.get<ProductsResponse>('/store/all_products')
             set((state) => ({
                 ...state,
-   
-                allProducts: data.allProducts
+
+                allProducts: data.allProducts,
+                totalIems: data.totalItems
             }))
             return data.allProducts
         } catch (error) {
@@ -78,9 +116,15 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
         })
         return data
     },
-    clearProducts  : () => {
+    clearProducts: () => {
         set(({
-            products : []
+            products: []
+        }))
+    },
+    resetPage: (page: number) => {
+        set(state => ({
+            ...state,
+            currentPage: page
         }))
     }
 }))

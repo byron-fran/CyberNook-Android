@@ -8,6 +8,7 @@ import { stylesAuth as style } from './styles';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/auth/useAuth';
 import { useForm, Controller } from "react-hook-form"
+import { colors } from '../../colors/colors';
 
 interface Props extends StackScreenProps<StackRootParams, 'LoginScreen'> { };
 
@@ -18,7 +19,7 @@ interface UserLogin {
 
 const LoginScreen = ({ navigation }: Props) => {
 
-    const { login, errorLogin , clearErrors : clearErrorsLogin} = useAuthStore();
+    const { login, errorLogin, clearErrors: clearErrorsLogin } = useAuthStore();
     const [passwordSecure, setSecurePassword] = useState(true)
 
     const { control, formState: { errors }, handleSubmit, setError, clearErrors } = useForm({
@@ -56,6 +57,10 @@ const LoginScreen = ({ navigation }: Props) => {
                         rules={{ required: true, }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
+                                accessoryLeft={(props) => <Icon
+                                    {...props}
+                                    style={{ }}
+                                    name='mail-outline' size={25} />}
                                 style={style.input}
                                 onBlur={onBlur}
                                 onChangeText={(text) => {
@@ -72,9 +77,11 @@ const LoginScreen = ({ navigation }: Props) => {
                                 }}
                                 value={value}
                                 placeholder='Example@gmail.com'
-                                accessoryLeft={<Icon name='mail-outline' size={25} />}
+                                textBreakStrategy='highQuality'
+                              
+
                             />
-                            )}
+                        )}
                         name='email'
                     />
                 </View>
@@ -88,22 +95,32 @@ const LoginScreen = ({ navigation }: Props) => {
                         rules={{ required: true }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
+                                accessoryLeft={(props) =>
+                                    <Icon
+                                        {...props}
+                                        style={{}}
+                                        name='lock-closed-outline' size={25} 
+                                        />
+                                }
                                 style={style.input}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder='Your password'
                                 secureTextEntry={passwordSecure}
-                                accessoryLeft={<Icon name='lock-closed-outline' size={25} />}
-                                accessoryRight={
-                                    passwordSecure ?
-                                        <Icon
-                                            onPress={() => setSecurePassword(false)}
-                                            name='eye-outline' size={25} />
-                                        : <Icon
-                                            onPress={() => setSecurePassword(true)}
-                                            name='eye-off-outline' size={25} />
-                                }
+                            accessoryRight={ (props) =>
+                                passwordSecure ?
+                                    <Icon
+                                        {...props}
+                                        onPress={() => setSecurePassword(false)}
+                                        style={{}}
+                                        name='eye-outline' size={25} />
+                                    : <Icon
+                                        {...props}
+                                        style={{}}
+                                        onPress={() => setSecurePassword(true)}
+                                        name='eye-off-outline' size={25} />
+                            }
                             />
                         )}
                         name='password'

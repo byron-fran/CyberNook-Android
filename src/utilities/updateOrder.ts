@@ -13,7 +13,7 @@ export const updateOrderQuantity = (order: Order, action: QuantityAction): Order
 
     const newPrice = order.discount > 0 ?
         (order.unitPrice! - (order.unitPrice! * (order.discount / 100)))
-        * newQuantity : order.unitPrice! * newQuantity  // Calcula el nuevo precio basado en la nueva cantidad
+        * newQuantity : order.unitPrice! * newQuantity  
 
     const newOrder: Order = {
         ...order,

@@ -29,7 +29,7 @@ const HomeScreen = ({ navigation }: Props) => {
         };
 
     }, [cart.length, status]);
-
+    
     const { data: allProducts = [], isLoading } = useQuery({
         queryKey: ['all_products'],
         queryFn: async () => await getAllProducts(),

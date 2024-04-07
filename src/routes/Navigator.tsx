@@ -24,9 +24,10 @@ export type StackRootParams = {
     ProductsScreen : {  
             category? : string, 
             mark? : string, 
-            page? : number
+            page? : number,
+  
     },
-    
+
 }   
 
 const Stack = createNativeStackNavigator<StackRootParams>()

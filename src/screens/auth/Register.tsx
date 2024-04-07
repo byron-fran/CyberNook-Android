@@ -14,7 +14,7 @@ interface Props extends StackScreenProps<StackRootParams, 'RegisterScreen'> { };
 
 const RegisterScreen = ({ navigation }: Props) => {
 
-    const { register, errorRegister, clearErrors : clearErrosRegister } = useAuthStore();
+    const { register, errorRegister, clearErrors: clearErrosRegister } = useAuthStore();
     const [passwordSecure, setSecurePassword] = useState(true);
 
     const { control, formState: { errors }, handleSubmit, setError, clearErrors } = useForm({
@@ -70,8 +70,15 @@ const RegisterScreen = ({ navigation }: Props) => {
                                     }
                                 }}
                                 value={value}
-                                placeholder='Examp.le@gmail.com'
-                                accessoryLeft={<Icon name='mail-outline' size={25} />}
+                                placeholder='Example@gmail.com'
+                                accessoryLeft={(props) =>
+                                    <Icon
+                                        {...props}
+                                        style={{}}
+                                        name='mail-outline'
+                                        size={25}
+                                    />
+                                }
                             />
                         )}
                         name='email'
@@ -93,7 +100,15 @@ const RegisterScreen = ({ navigation }: Props) => {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder='Your name'
-                                accessoryLeft={<Icon name='person-outline' size={25} />}
+                                accessoryLeft={(props) =>
+
+                                    <Icon
+                                        {...props}
+                                        style={{}}
+                                        name='person-outline'
+                                        size={25}
+                                    />
+                                }
                             />
                         )}
                         name='name'
@@ -104,6 +119,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                 <View style={style.inputCard}>
                     <Text style={style.labelText}>Phone number</Text>
                     {errors.phone?.type === 'pattern' && <Text style={style.errorText}>{errors?.phone?.message}</Text>}
+
                     <Controller
                         control={control}
                         rules={{ required: false, minLength: 2, maxLength: 25 }}
@@ -126,7 +142,14 @@ const RegisterScreen = ({ navigation }: Props) => {
                                 }}
                                 value={value}
                                 placeholder='+1 800 3935 54'
-                                accessoryLeft={<Icon name='call-outline' size={25} />}
+                                accessoryLeft={(props) =>
+                                    <Icon
+                                        {...props}
+                                        name='call-outline'
+                                        size={25}
+                                        style={{}}
+                                    />
+                                }
                             />
                         )}
                         name='phone'
@@ -148,13 +171,24 @@ const RegisterScreen = ({ navigation }: Props) => {
                                 value={value}
                                 placeholder='Your password'
                                 secureTextEntry={passwordSecure}
-                                accessoryLeft={<Icon name='lock-closed-outline' size={25} />}
-                                accessoryRight={
+                                accessoryLeft={(props) =>
+                                    <Icon
+                                        {...props}
+                                        style={{}}
+                                        name='lock-closed-outline'
+                                        size={25}
+                                    />
+                                }
+                                accessoryRight={(props) =>
                                     passwordSecure ?
                                         <Icon
+                                            {...props}
+                                            style={{}}
                                             onPress={() => setSecurePassword(false)}
                                             name='eye-outline' size={25} />
                                         : <Icon
+                                            {...props}
+                                            style={{}}
                                             onPress={() => setSecurePassword(true)}
                                             name='eye-off-outline' size={25} />
                                 }

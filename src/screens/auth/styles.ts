@@ -16,7 +16,7 @@ export const stylesAuth = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         padding: 5,
-
+    
 
 
 

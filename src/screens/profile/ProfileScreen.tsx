@@ -12,18 +12,18 @@ import { User } from '../../interfaces/User';
 
 const ProfileScreen = () => {
     const { user, updateProfile, success, isLoading, checkStatus } = useAuthStore();
-
+    console.log(user)
     //Profile states
     const [disabledName, setDisabledName] = useState(true);
     const [disabledEmail, setDisabledEmail] = useState(true);
     const [disabledPhone, setDisabledPhone] = useState(true);
-    const { 
-            control, 
-            formState: { errors }, 
-            handleSubmit,
-            setError, 
-            clearErrors,
-            } = useForm ( { defaultValues: user});
+    const {
+        control,
+        formState: { errors },
+        handleSubmit,
+        setError,
+        clearErrors,
+    } = useForm({ defaultValues: user });
 
     const { CustomToast, showToast } = useToastAnimation(
         {
@@ -81,6 +81,13 @@ const ProfileScreen = () => {
                                 rules={{ required: true, maxLength: 50 }}
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <Input
+                                        accessoryLeft={(props) =>
+                                            <Icon
+                                                {...props}
+                                                name='person-outline' size={25}
+                                                style={{}}
+                                            />
+                                        }
                                         style={[styles.input, {
                                             borderColor: disabledName ? colors.grayLight : colors.blue
                                         }]}
@@ -136,7 +143,14 @@ const ProfileScreen = () => {
 
                                         value={value}
                                         placeholder='Example@gmail.com'
-                                        accessoryLeft={<Icon name='mail-outline' size={25} />}
+                                        accessoryLeft={(props) =>
+                                            <Icon
+                                                {...props}
+                                                name='mail-outline'
+                                                size={25}
+                                                style={{}}
+                                            />
+                                        }
                                     />
                                 )}
                                 name='email'
@@ -183,7 +197,14 @@ const ProfileScreen = () => {
                                         }}
                                         value={value}
                                         placeholder='+1 800 3935 54'
-                                        accessoryLeft={<Icon name='call-outline' size={25} />}
+                                        accessoryLeft={(props) =>
+                                            <Icon
+                                                {...props}
+                                                name='call-outline'
+                                                size={25}
+                                                style={{}}
+                                            />
+                                        }
                                     />
                                 )}
                                 name='phone'

@@ -14,7 +14,7 @@ const Navbar = () => {
     const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
     const { categories } = useCategoryStore();
     const { getMarks, marks, isLoading } = useMarksStore();
-    const {getProducts} = useProductsStore();
+    const { getProducts,    resetPage} = useProductsStore();
 
     const [selectedIndexCategory, setSelectedIndexCategory] = useState<IndexPath>(new IndexPath(0));
     const [selectedIndexMark, setSelectedIndexMark] = useState<IndexPath>(new IndexPath(0));
@@ -43,9 +43,11 @@ const Navbar = () => {
                 <Text
                     style={styles.navText}
                     onPress={() => {
-                        getProducts()
-                        navigate('ProductsScreen', { page: 1 })
-                        
+                        setCategory('')
+                        setMark('')
+                        getProducts(1)
+                        navigate('ProductsScreen', { page: 1, })
+                        resetPage(1)
                     }}
                 >All</Text>
             </Pressable>
@@ -78,6 +80,7 @@ const Navbar = () => {
 
                                 }
                             )
+                            resetPage(1)
                         }}
                     />
                 ))}
@@ -103,6 +106,7 @@ const Navbar = () => {
                         key={mark.id}
                         title={mark.name}
                         onPress={() => {
+                            resetPage(1)
                             setMark(mark.name)
                             navigate('ProductsScreen',
                                 {

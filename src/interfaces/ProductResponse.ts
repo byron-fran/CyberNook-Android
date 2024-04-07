@@ -3,6 +3,7 @@
 import { Product } from "./products";
 
 export interface ProductResponse {
+    
     product:  Product;
     products: Product[];
 }
