@@ -8,6 +8,7 @@ import { StackRootParams } from '../../routes/Navigator';
 import { useAuthStore } from '../../store/auth/useAuth'
 import { useCartStore } from '../../store/cart/useCart'
 import { useAddressStore } from '../../store/address/useAddress';
+import { useFavoriteStore } from '../../store/favorites/useFavoriteStore'
 
 const MenuItemsOverFlow = () => {
 
@@ -17,15 +18,17 @@ const MenuItemsOverFlow = () => {
     const [visible, setVisible] = useState(false);
     const { clearCart } = useCartStore();
     const { clearAddress } = useAddressStore();
+    const {clearfavorites} = useFavoriteStore()    
 
     const onItemSelect = (index: any): void => {
         setSelectedIndex(index);
         setVisible(false);
     };
     const onLogout = () => {
-        logout()
-        clearCart()
-        clearAddress()
+        logout();
+        clearCart();
+        clearAddress();
+        clearfavorites();
     }
     return (
 

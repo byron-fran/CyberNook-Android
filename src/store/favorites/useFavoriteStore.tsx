@@ -8,7 +8,8 @@ export interface FavoriteState {
     favorites: Product[],
     getFavorites: () => Promise<Product[]>
     addFavorite: (product : Product) => Promise<boolean>,
-    removeFavorite: (ProductId: string) => Promise<boolean>
+    removeFavorite: (ProductId: string) => Promise<boolean>,
+    clearfavorites : () => void
 };
 
 export const useFavoriteStore = create<FavoriteState>((set, get) => ({
@@ -46,10 +47,15 @@ export const useFavoriteStore = create<FavoriteState>((set, get) => ({
             set((state) => ({
                 favorites: state.favorites.filter(fav => fav.id !== ProductId)
             }));
-            
+
             return data
         } catch (error) {
             throw new Error(error as string)
         }
+    },
+    clearfavorites : () => {
+        set({
+            favorites : []
+        })
     }
 }))
