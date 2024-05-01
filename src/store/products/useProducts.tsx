@@ -21,6 +21,7 @@ export interface ProductsState {
     allProducts: Product[],
     getProducts: (page?: number, category?: string, mark?: string) => Promise<ProductsResponse | undefined>,
     getAllProducts: () => Promise<Product[] | undefined>,
+    updateProducts : (product : Product) => void,
     isLoading: boolean,
     getProductById: (id: string) => Promise<Product>,
 
@@ -111,10 +112,14 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
             isLoading: true
         })
         const { data } = await axios.get<Product>(`/store/product/${id}`);
+    
         set({
             isLoading: false
         })
         return data
+    },
+    updateProducts : (product : Product) => {
+        const productFind =  get()?.products.find(p =>  p.id === product.id)
     },
     clearProducts: () => {
         set(({

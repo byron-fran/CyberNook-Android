@@ -8,7 +8,8 @@ import { colors } from "../colors/colors";
 import { ParamsType } from "../screens/products/ProductsScreen";
 import { Product } from "../interfaces/products";
 import { useProductsStore } from "../store/products/useProducts";
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons';
+
 interface ListButtonsProps {
     currentPage: number,
     totalPages: number,

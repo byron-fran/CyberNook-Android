@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackRootParams } from '../../routes/Navigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Address as AddressInterface } from '../../interfaces/Address';
+
 interface Props {
     modalVisible: boolean,
     setModalVisible: Dispatch<SetStateAction<boolean>>
@@ -33,7 +34,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
     }, [getAddress]);
 
     const { totalQuantity, totalPriceToPay, save } = calculateTotalPrice(cart);
-
+    
     return (
 
         <Modal
@@ -123,7 +124,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
                 </Layout>
 
                 {/* section button to pay */}
-                <Button style={styles.btnPay} onPress={() => { }}>Pay Now</Button>
+                <Button style={styles.btnPay} onPress={() => navigate('PaymentScreen')}>Pay Now</Button>
             </Layout>
         </Modal>
 

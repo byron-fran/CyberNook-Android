@@ -10,6 +10,7 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import AddressScreen from '../screens/address/AdressScreen';
 import AddReviewScreen from '../screens/reviews/AddReviewScree';
 import ProductsScreen from '../screens/products/ProductsScreen';
+import PaymentScreen from '../screens/cart/PaymentScreen';
 
 export type StackRootParams = {
 
@@ -21,6 +22,7 @@ export type StackRootParams = {
     ProfileScreen : undefined,
     AddressScreen : undefined,
     AddReviewScreen : {productId : string},
+    PaymentScreen : undefined,
     ProductsScreen : {  
             category? : string, 
             mark? : string, 
@@ -46,7 +48,8 @@ const AppNavigator = () => {
             <Stack.Screen name='ProfileScreen' component={ProfileScreen}/>
             <Stack.Screen name='AddressScreen' component={AddressScreen} />
             <Stack.Screen name='AddReviewScreen' component={AddReviewScreen}/>
-            <Stack.Screen name='ProductsScreen' component={ProductsScreen}/>       
+            <Stack.Screen name='ProductsScreen' component={ProductsScreen}/>
+            <Stack.Screen name='PaymentScreen' component={PaymentScreen}/>       
         </Stack.Navigator>
     )
 

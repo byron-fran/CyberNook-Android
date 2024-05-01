@@ -13,18 +13,23 @@ import Loading from '../../components/loading/Loading'
 import { useCartStore } from '../../store/cart/useCart'
 import Navbar from '../../components/nav/NavBar'
 import { Text } from 'react-native-svg'
+import { useFavoriteStore } from '../../store/favorites/useFavoriteStore'
 
 interface Props extends StackScreenProps<StackRootParams, 'HomeScreen'> { }
 
 const HomeScreen = ({ navigation }: Props) => {
-    const {  status } = useAuthStore()
+    const {  status } = useAuthStore();
+    const { getFavorites } = useFavoriteStore();
     const { getAllProducts} = useProductsStore();
-    const { cart, getCart } = useCartStore();
 
+    const { cart, getCart } = useCartStore();
 
     useEffect(() => {
         if (status === 'authenticated') {
+            
             getCart();
+            getFavorites();
+
             return
         };
 

@@ -19,7 +19,7 @@ interface Props extends BottomTabScreenProps<TabRootParams, 'CartScreen'> { };
 const CartScreen = ({ navigation, route }: Props) => {
     const { cart, isLoading, deleteOrderById, updateOrderById } = useCartStore();
     const [modalVisible, setModalVisible] = useState(false);
-
+    console.log(modalVisible)
     return (
         <LayoutMain>
             {isLoading
@@ -36,7 +36,7 @@ const CartScreen = ({ navigation, route }: Props) => {
             }
             <ModalTotalPay modalVisible={modalVisible} setModalVisible={setModalVisible} />
             {cart.length > 0 && (
-                <Button style={styles.btnSeeTotal} onPress={() => setModalVisible(true)}>See total</Button>
+                <Button style={styles.btnSeeTotal} onPress={() => setModalVisible(true)}>Checkout</Button>
 
             )}
         </LayoutMain>

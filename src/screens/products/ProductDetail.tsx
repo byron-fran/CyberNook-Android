@@ -23,7 +23,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
     const { getProductById, isLoading } = useProductsStore();
     const [selectedIndex, setSelectIndex] = useState<IndexPath | IndexPath[]>(new IndexPath(0));
     const [product, setProduct] = useState<Product>({} as Product);
-    
+
     const { addToCart, updateOrderById, cart, isLoading: loading, success } = useCartStore();
 
     const { CustomToast, showToast } = useToastAnimation(
@@ -43,7 +43,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
                 return
             }
         });
- 
+
 
     }, [])
 
@@ -62,7 +62,7 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
         const orderFind = cart?.find(order => order.ProductId === product.id);
 
         if (orderFind) {
-          
+
             await updateOrderById(orderFind?.id!, order)
         }
         else {
@@ -70,9 +70,9 @@ const ProductDetail = ({ route: { params }, navigation }: Props) => {
             await addToCart(order)
         }
     }
-    
-  
-  
+
+
+
     return (
         <>
             <CustomToast />
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         width: '90%',
         marginHorizontal: '5%',
-    
+
     },
     title: {
         textAlign: 'center',
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         width: 'auto'
     },
     card: {
-        
+
 
     },
     image: {
