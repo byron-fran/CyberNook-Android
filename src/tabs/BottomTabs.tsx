@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { colors } from "../colors/colors";
 import { calculateTotalPrice } from "../helpers/calculateTotalPrice";
+import { useFavoriteStore } from "../store/favorites/useFavoriteStore";
 
 export type TabRootParams = {
 
@@ -22,7 +23,7 @@ const Tab = createBottomTabNavigator<TabRootParams>();
 
 const BottomTabs = () => {
     const {  cart } = useCartStore();
-
+    const {favorites} = useFavoriteStore()
     
     const { totalQuantity } = calculateTotalPrice(cart)
 
@@ -86,7 +87,20 @@ const BottomTabs = () => {
                 name='FavoriteScreen'
                 component={FavoritesScreen}
                 options={{
-                    title: ''
+                    tabBarItemStyle: {
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        width: 30
+
+                    },
+                    tabBarLabel: ((props) => {
+                        return favorites?.length > 0 ? (
+                            <Text style={styles.btnQuantity}>{favorites.length}</Text>
+                        ) : null
+                    }),
+                    tabBarLabelPosition: 'below-icon',
+                    title : ''
                 }} />
 
 
