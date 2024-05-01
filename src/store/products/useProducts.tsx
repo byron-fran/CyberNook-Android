@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { Product } from "../../interfaces/products";
 import { cybernookApi as axios } from "../../config/api/cybernookApi";
-import { ProductResponse } from "../../interfaces/ProductResponse";
 
 export type ProductsResponse = {
     products: Product[]
@@ -11,11 +10,8 @@ export type ProductsResponse = {
     nextPage: number
     previousPage: number
     allProducts: Product[],
+};
 
-
-
-
-}
 export interface ProductsState {
     products: Product[],
     allProducts: Product[],
@@ -34,11 +30,8 @@ export interface ProductsState {
     previousPage: number
 
     resetPage: (page: number) => void,
+};
 
-
-
-
-}
 export const useProductsStore = create<ProductsState>((set, get) => ({
     products: [],
     allProducts: [],
@@ -75,16 +68,15 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
                 ...state,
                 products: data.products,
                 totalItems: data.totalItems,
-                currenPage: data.currentPage,
+                currentPage: data.currentPage,
                 totalPages :data.totalPages,
                 nextPage : data.nextPage,
                 previousPage : data.previousPage,
                 isLoading : false
 
 
-            }))
-
-
+            }));
+   
             return data
         } catch (error) {
 

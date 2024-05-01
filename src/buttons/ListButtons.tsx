@@ -1,73 +1,62 @@
-import { Dispatch, SetStateAction, useState } from "react"
-import UsePagination from "../hooks/pagination/usePagination"
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { StackRootParams } from "../routes/Navigator";
+import { useEffect, useState } from "react"
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { colors } from "../colors/colors";
-import { ParamsType } from "../screens/products/ProductsScreen";
-import { Product } from "../interfaces/products";
 import { useProductsStore } from "../store/products/useProducts";
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons'
 
-interface ListButtonsProps {
-    currentPage: number,
-    totalPages: number,
-    renderPaginationButtons: Function,
-    setOffset: Dispatch<SetStateAction<number>>,
-    products :  Product[]
+const ListButtons = () => {
 
+    const { nextPage, totalPages, previousPage, currentPage, products } = useProductsStore()
 
-}
+    const { getProducts } = useProductsStore();
 
-const ListButtons = ({ currentPage, totalPages, setOffset, renderPaginationButtons,products }: ListButtonsProps) => {
+    const handleChangePage = (page: number) => {
 
-    const { navigate } = useNavigation<StackNavigationProp<StackRootParams>>();
-    const {} = useProductsStore();
+        getProducts(page)
+    };
 
     return (
         <View style={[styles.containerButtons, {
-            marginTop : products.length  === 2 ? 170 : 20
-        }]} >
-            {
-                totalPages > 1 && (
+            marginTop: products.length > 3 ? 20 : 180
+        }]}>
 
+            <Pressable
+                disabled={previousPage === 0}
+                onPress={() => handleChangePage(previousPage)}
+
+            >
+                <Icon style={{
+                    opacity: previousPage === 0 ? 0.5 : 1
+                }} name="arrow-back-circle-outline" color={colors.blue} size={40} />
+            </Pressable>
+
+            {Array.from({ length: totalPages }, (_, index) => {
+                let i = index + 1
+                return (
                     <Pressable
-
-                        disabled={currentPage === 1}
-                        style={[{ 
-                                borderColor: currentPage === 1 ? colors.sky : colors.blue 
-                                
-                            }, styles.button]}
-
-                        onPress={() => {
-                            setOffset(currentPage - 1)
-
-                        }}
+                        style={[styles.button, {
+                            backgroundColor: currentPage === i ? colors.sky : 'white',
+                            borderColor: currentPage === i ? 'transparent' : colors.blue
+                        }]}
+                        disabled={currentPage === i}
+                        key={i}
+                        onPress={() => handleChangePage(i)}
                     >
-                        <Icon name="arrow-back-circle-outline" color={colors.blue}  size={35}/>
+                        <Text style={styles.textButton} >{i}</Text>
                     </Pressable>
                 )
-            }
+            })}
 
-            
-            {renderPaginationButtons()}
-
-            {totalPages  > 1 && (
-
-                <Pressable
-                    disabled={Number(totalPages) === currentPage}
-                    style={[{ borderColor: Number(totalPages) === currentPage ? colors.blue : colors.sky }, styles.button]}
-
-                    onPress={() => {
-                        setOffset(currentPage + 1)
-
-                    }}
-                ><Icon name="arrow-forward-circle-outline" color={colors.blue}  size={35}/>
-                </Pressable>
-            )}
-
+            <Pressable
+                disabled={nextPage === 0}
+                onPress={() => handleChangePage(nextPage)}
+            >
+                <Icon style={{
+                    opacity: nextPage === 0 ? 0.5 : 1
+                }} name="arrow-forward-circle-outline" size={40} color={colors.blue} />
+            </Pressable>
         </View>
+
     )
 }
 const styles = StyleSheet.create({
@@ -76,12 +65,13 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         gap: 5,
-        marginBottom : 10
+        marginBottom: 10,
+        flexWrap: 'wrap'
     },
     button: {
-        padding: 7,
-        backgroundColor: colors.sky,
-        borderRadius: 5
+        paddingHorizontal: 10,
+        paddingVertical: 7,
+        borderWidth: 1, borderRadius: 5
     },
     textButton: {
         fontSize: 15,

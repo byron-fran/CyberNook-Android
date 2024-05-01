@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, ToastAndroid, StatusBar, Image, ActivityIndicator, View } from 'react-native';
+import { Pressable, StyleSheet,  ActivityIndicator, View } from 'react-native';
 import LayoutMain from '../../layouts/LayoutMain'
 import { useAuthStore } from '../../store/auth/useAuth';
 import { Text, Layout, Input, Button } from '@ui-kitten/components';

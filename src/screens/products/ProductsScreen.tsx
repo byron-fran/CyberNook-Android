@@ -8,7 +8,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { StackRootParams } from '../../routes/Navigator'
 import Loading from '../../components/loading/Loading';
 import ListButtons from '../../buttons/ListButtons'
-import UsePagination from '../../hooks/pagination/usePagination';
+
 
 export interface ParamsType {
     category?: string,
@@ -18,25 +18,20 @@ export interface ParamsType {
 interface Props extends StackScreenProps<StackRootParams, 'ProductsScreen'> { }
 
 const ProductsScreen = ({ route: { params } }: Props) => {
+
     const [listenCategegory, setListenCategory] = useState<ParamsType>({} as ParamsType)
     const { category, mark } = params;
-    const { getProducts, products, clearProducts, currentPage, isLoading, } = useProductsStore();
-
-    const { renderPaginationButtons, setOffset, totalPages, } = UsePagination(listenCategegory);
+    const { getProducts, products, clearProducts, isLoading, } = useProductsStore();
 
     useEffect(() => {
         if (category || mark) {
-
             getProducts(1, category, mark)
-            setListenCategory({
-                category,
-                mark
-            })
+            setListenCategory({ category, mark })
         }
 
     }, [category, mark]);
 
-    useEffect(() => { return () => { clearProducts() }}, [])
+    useEffect(() => { return () => { clearProducts() } }, [])
 
     return (
         <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -58,15 +53,9 @@ const ProductsScreen = ({ route: { params } }: Props) => {
                                 <Text style={styles.textNoResult}>Nothing was found</Text>
                             </View>}
 
-                        <ListButtons
-                            currentPage={currentPage}
-                            renderPaginationButtons={renderPaginationButtons}
-                            setOffset={setOffset}
-                            totalPages={totalPages}
-                            products={products}
-                        />
+                        <ListButtons/>
+                        
                     </>
-
                 )}
             </View>
         </ScrollView>
