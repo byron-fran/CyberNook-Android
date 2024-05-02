@@ -17,7 +17,7 @@ const ListButtons = () => {
 
     return (
         <View style={[styles.containerButtons, {
-            marginTop: products.length > 3 ? 20 : 180
+            marginTop: products.length > 3 ? 20 : 160
         }]}>
 
             <Pressable

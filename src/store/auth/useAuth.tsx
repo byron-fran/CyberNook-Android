@@ -20,7 +20,7 @@ export interface AuthState {
     checkStatus: () => Promise<boolean | undefined>,
     logout: () => Promise<void>,
     updateProfile: (user: User) => Promise<void>,
-    clearErrors : () => void
+    clearErrors: () => void
     //Error Auth
     errorLogin: string,
     errorRegister: string,
@@ -111,14 +111,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         }
     },
-    logout: async () => {
-        await StorageAdapter.removeItem('token')
-        set({
-            status: 'unauthenticated',
-            user: undefined,
-            token: undefined,
-            
-        })
+    logout: async () : Promise<void>=> {
+        try {
+            await StorageAdapter.removeItem('token')
+
+            set({
+                status: 'unauthenticated',
+                user: undefined,
+                token: undefined,
+
+            })
+        } catch (error : unknown) {
+            throw new Error(error as string)
+        }
 
     },
     updateProfile: async (user: User) => {
@@ -132,7 +137,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 ...state,
                 isLoading: false,
                 success: true,
-                user : data
+                user: data
             }))
             setTimeout(() => {
                 set(state => ({
@@ -151,12 +156,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             }))
         }
     },
-    checkStatus: async () => {
+    checkStatus: async () : Promise<boolean | undefined>  => {
         try {
             const token = await StorageAdapter.getItem('token');
             if (!token) { return }
 
             const { data } = await axios.get<AuthResponse>('/verify');
+
             if (!data.token) {
                 set({
                     status: 'unauthenticated',
@@ -175,16 +181,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             return true
 
         } catch (error: unknown) {
-            console.log(error)
+            throw new Error(error as string)
         }
 
     },
-    clearErrors : () => {
+    clearErrors: () => {
         set((state) => ({
             ...state,
-            errorLogin :'',
-            errorRegister : '',
-            
+            errorLogin: '',
+            errorRegister: '',
+
         }))
     }
 

@@ -17,7 +17,7 @@ const AddressScreen = () => {
         getAddress,
         Address,
         updateAddress,
-        deleteAddress,
+
         createAddress,
         isLoading,
         success } = useAddressStore();
@@ -28,7 +28,8 @@ const AddressScreen = () => {
             text1: 'Your address was updated correctly',
             iconName: 'checkmark-outline',
         }
-    )
+    );
+    const { status } = useAuthStore()
     const [infoAddress, setInfoAddress] = useState<AddressInterface>(Address)
     //Address disables  states
     const [disabledStreet, setDisabledStreet] = useState(true);
@@ -36,15 +37,18 @@ const AddressScreen = () => {
     const [disabledCodeZIP, setDisabledZIPCode] = useState(true);
     const [disabledCity, setDisabledCity] = useState(true);
     const [disabledCountry, setDisabledCountry] = useState(true);
-
+    
     useEffect(() => {
-        getAddress()
-            .then((result: AddressInterface) => {
-                if (result) {
-                    setInfoAddress(result);
-                    return
-                }
-            })
+        if (status === 'authenticated') {
+
+            getAddress()
+                .then((result: AddressInterface) => {
+                    if (result) {
+                        setInfoAddress(result);
+                        return
+                    }
+                })
+        }
 
     }, [getAddress]);
 
@@ -145,7 +149,7 @@ const AddressScreen = () => {
                                             borderColor: disabledExteriorNumber ? colors.grayLight : colors.blue
                                         }]}
                                         keyboardType='numeric'
-                                        value={value.toString()}
+                                        value={value?.toString()}
                                         onChangeText={(value) => {
                                             onChange(value);
                                             const isValidEmail = /^\d+$/.test(value);
@@ -188,7 +192,7 @@ const AddressScreen = () => {
                                         style={[styles.input, {
                                             borderColor: disabledCodeZIP ? colors.grayLight : colors.blue
                                         }]}
-                                        value={value.toString()}
+                                        value={value?.toString()}
                                         onChangeText={(value) => {
                                             onChange(value);
                                             const isValidEmail = /^\d+$/.test(value);

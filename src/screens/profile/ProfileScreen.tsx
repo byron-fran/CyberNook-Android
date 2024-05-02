@@ -12,7 +12,7 @@ import { User } from '../../interfaces/User';
 
 const ProfileScreen = () => {
     const { user, updateProfile, success, isLoading, checkStatus } = useAuthStore();
-    console.log(user)
+
     //Profile states
     const [disabledName, setDisabledName] = useState(true);
     const [disabledEmail, setDisabledEmail] = useState(true);
@@ -24,7 +24,7 @@ const ProfileScreen = () => {
         setError,
         clearErrors,
     } = useForm({ defaultValues: user });
-
+   
     const { CustomToast, showToast } = useToastAnimation(
         {
             type: 'success',

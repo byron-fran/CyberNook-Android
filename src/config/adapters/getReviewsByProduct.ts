@@ -8,7 +8,7 @@ export const getReviewsByProduct = async(id : string) : Promise<Review[]> => {
         return data  
 
     } catch (error) {
-        console.log(error)
+   
         throw new Error(error as string)
     }
 

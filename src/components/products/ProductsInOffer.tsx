@@ -38,7 +38,7 @@ const ProductsInOffer: FC<Props> = ({ isLoading, allProducts: products }) => {
     return (
         <View style={{ flex: 1, height: '100%' }}>
             <>
-                {isLoading ? <Loading /> : (
+                {isLoading ? <Loading heightContainer={550} /> : (
                     <>
 
                         <View style={styles.card}>

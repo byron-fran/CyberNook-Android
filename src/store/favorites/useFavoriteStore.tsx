@@ -6,44 +6,48 @@ import { ProductResponse } from "../../interfaces/ProductResponse";
 
 export interface FavoriteState {
     favorites: Product[],
-    getFavorites: () => Promise<Product[]>
-    addFavorite: (product : Product) => Promise<boolean>,
+    getFavorites: () => Promise<Product[] | undefined>
+    addFavorite: (product: Product) => Promise<boolean>,
     removeFavorite: (ProductId: string) => Promise<boolean>,
-    clearfavorites : () => void
+    clearfavorites: () => void
 };
 
 export const useFavoriteStore = create<FavoriteState>((set, get) => ({
     favorites: [],
-    getFavorites: async () => {
-
-        const { data } = await axios.get<Product[]>('/favorite');
-
-        set((state) => ({
-            ...state,
-            favorites: data
-        }));
-
-        return data
-    },
-
-    addFavorite: async (product : Product) : Promise<boolean> => {
+    getFavorites: async ()  => {
         try {
 
-            const {data} = await axios.post<boolean>(`/favorite/${product.id}`);
-      
+            const { data } = await axios.get<Product[]>('/favorite');
+
             set((state) => ({
                 ...state,
-                favorites : [...state.favorites, product ]
+                favorites: data
+            }));
+
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    addFavorite: async (product: Product): Promise<boolean> => {
+        try {
+
+            const { data } = await axios.post<boolean>(`/favorite/${product.id}`);
+
+            set((state) => ({
+                ...state,
+                favorites: [...state.favorites, product]
             }))
-        
+
             return data
         } catch (error) {
             throw new Error(error as string)
         }
     },
-    removeFavorite: async (ProductId: string) : Promise<boolean> => {
+    removeFavorite: async (ProductId: string): Promise<boolean> => {
         try {
-            const {data} =  await axios.delete(`/favorite/${ProductId}`);
+            const { data } = await axios.delete(`/favorite/${ProductId}`);
             set((state) => ({
                 favorites: state.favorites.filter(fav => fav.id !== ProductId)
             }));
@@ -53,9 +57,9 @@ export const useFavoriteStore = create<FavoriteState>((set, get) => ({
             throw new Error(error as string)
         }
     },
-    clearfavorites : () => {
+    clearfavorites: () => {
         set({
-            favorites : []
+            favorites: []
         })
     }
 }))

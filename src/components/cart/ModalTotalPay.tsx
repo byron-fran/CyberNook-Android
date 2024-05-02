@@ -34,7 +34,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
     }, [getAddress]);
 
     const { totalQuantity, totalPriceToPay, save } = calculateTotalPrice(cart);
-    
+  
     return (
 
         <Modal
@@ -57,7 +57,7 @@ const ModalTotalPay = ({ modalVisible, setModalVisible }: Props) => {
 
                 {/* section of payment and address */}
                 <Layout style={styles.container}>
-                    {Object.values(Address).length < 0? (
+                    {Object.values(Address).includes('') ? (
                        <Button 
                         onPress={() => navigate('AddressScreen')}
                         style={{backgroundColor : colors.indigo}}

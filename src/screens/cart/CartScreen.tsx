@@ -1,17 +1,15 @@
 import LayoutMain from '../../layouts/LayoutMain';
-import { useEffect, useState } from 'react';
-import { Order, useCartStore } from '../../store/cart/useCart';
+import { useState } from 'react';
+import {  useCartStore } from '../../store/cart/useCart';
 import { Layout, Text, Button } from '@ui-kitten/components';
 import Loading from '../../components/loading/Loading';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'
-import { formatQuantity } from '../../helpers/formatQuanity';
+
 import { generateId } from '../../helpers/generateId';
 import ModalTotalPay from '../../components/cart/ModalTotalPay';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { TabRootParams } from '../../tabs/BottomTabs';
-import { colors } from '../../colors/colors';
-import { createOrder } from '../../utilities/createOrder';
+
 import CartCard from '../../components/cart/CartCard';
 
 interface Props extends BottomTabScreenProps<TabRootParams, 'CartScreen'> { };

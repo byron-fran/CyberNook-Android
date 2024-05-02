@@ -38,7 +38,7 @@ export const useAddressStore = create<AddressState>((set, get) => ({
             return data
 
         } catch (error: unknown) {
-            console.log(error,)
+            console.log(error)
         }
     },
     createAddress: async (adddress: Address) => {
