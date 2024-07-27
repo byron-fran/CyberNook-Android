@@ -11,7 +11,6 @@ const ListButtons = () => {
     const { getProducts } = useProductsStore();
 
     const handleChangePage = (page: number) => {
-
         getProducts(page)
     };
 
@@ -23,7 +22,7 @@ const ListButtons = () => {
             <Pressable
                 disabled={previousPage === 0}
                 onPress={() => handleChangePage(previousPage)}
-
+ 
             >
                 <Icon style={{
                     opacity: previousPage === 0 ? 0.5 : 1

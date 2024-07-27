@@ -4,7 +4,6 @@ import FavoritesScreen from "../screens/favorites/FavoritesScreen";
 import AppNavigator from "../routes/Navigator";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useCartStore } from "../store/cart/useCart";
-import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { colors } from "../colors/colors";
 import { calculateTotalPrice } from "../helpers/calculateTotalPrice";

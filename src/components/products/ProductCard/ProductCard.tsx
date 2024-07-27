@@ -1,7 +1,7 @@
 import { Product } from '../../../interfaces/products'
 import { FC, useEffect, useState } from 'react'
 import { Text } from '@ui-kitten/components'
-import { ActivityIndicator, Image, Pressable,  View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { formatQuantity } from '../../../helpers/formatQuanity'
 import { StackRootParams } from '../../../routes/Navigator'
@@ -72,6 +72,7 @@ const ProductCard: FC<Props> = ({ product }) => {
                 <Pressable
                     onPress={() => navigate('ProductDetail', { id: product.id! })}
                     style={{ flex: 1 }}>
+                    {/* Image of product  */}
                     <Image
 
                         style={styles.image}
@@ -102,7 +103,7 @@ const ProductCard: FC<Props> = ({ product }) => {
                             style={styles.imgShipping}
                             source={require('../../../assets/shipping.png')}
                         />
-                        <Text>Fast Shipping</Text>
+                        <Text style={{ fontSize: 13 }}>Fast Shipping</Text>
                     </View>
                     {/* <Image/> */}
                     <View style={styles.sectionBtns}>
@@ -119,7 +120,7 @@ const ProductCard: FC<Props> = ({ product }) => {
                             {isLoading && product.id! ? (
                                 <ActivityIndicator color={colors.orange} size={30} />
                             ) :
-                                <Icon name='cart-outline' color={colors.orange} size={30} />
+                                <Icon name='cart-outline' color={colors.orange} size={25} />
                             }
                         </Pressable >
 
@@ -134,13 +135,13 @@ const ProductCard: FC<Props> = ({ product }) => {
                                             const resp = await removeFavorite(product.id!)
                                             setIsFav(resp)
 
-                                        }} ><Icon name='heart' color={colors.blue} size={30} /></Pressable>
+                                        }} ><Icon name='heart' color={colors.blue} size={25} /></Pressable>
                                     ) : (
                                         <Pressable onPress={async () => {
                                             const resp = await addFavorite(product)
                                             setIsFav(resp)
 
-                                        }}><Icon name='heart-outline' color={colors.blue} size={30} /></Pressable>
+                                        }}><Icon name='heart-outline' color={colors.blue} size={25} /></Pressable>
                                     )
                             }
 

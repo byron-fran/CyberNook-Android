@@ -21,20 +21,20 @@ export const ProdcutCardStyles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     textProduct: {
-        fontSize: 20,
+        fontSize: 17,
         color: '#000',
         fontWeight: 'bold'
     },
     textPriceOffer: {
         color: '#EF4444',
         textDecorationLine: 'line-through',
-        fontSize: 20,
+        fontSize: 14,
         marginBottom: 0,
         padding: 0,
 
     },
     textPrice: {
-        fontSize: 25,
+        fontSize: 17,
         fontWeight: 'bold',
         color: '#0854A5',
 
