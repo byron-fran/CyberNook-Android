@@ -55,11 +55,13 @@ const ProductCard: FC<Props> = ({ product }) => {
 
                 setIsLoadingFavorite(true)
                 const { data } = await cybernookApi.post(`/check-favorite/${product.id}`)
+              
                 setIsFav(data)
                 setIsLoadingFavorite(false)
 
             } catch (error) {
                 console.log("errror", error)
+               
             }
         }
         chekingIsFavorite();
@@ -126,6 +128,7 @@ const ProductCard: FC<Props> = ({ product }) => {
 
                         {/* Section favorites */}
                         <View style={styles.btnFav}>
+                        
                             {status === 'unauthenticated' ?
                                 <Icon onPress={() => navigate('LoginScreen')} name='heart-outline' color={colors.blue} size={30} />
                                 : isLoadingFavorite ? <ActivityIndicator size={25} color={colors.blue} /> :

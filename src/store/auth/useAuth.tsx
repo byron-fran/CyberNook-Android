@@ -9,7 +9,8 @@ import { AxiosError } from "axios";
 export interface AuthResponse {
     token: string,
     user: User
-}
+};
+
 
 export interface AuthState {
     token?: string,
@@ -157,17 +158,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
     checkStatus: async () : Promise<boolean | undefined>  => {
+        
         try {
             const token = await StorageAdapter.getItem('token');
+        
             if (!token) { return }
 
             const { data } = await axios.get<AuthResponse>('/verify');
-
+       
             if (!data.token) {
                 set({
                     status: 'unauthenticated',
                     user: undefined,
                     token: undefined
+
                 })
                 return false
             };
@@ -181,7 +185,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             return true
 
         } catch (error: unknown) {
-            throw new Error(error as string)
+            set({
+                status: 'unauthenticated',
+                user: undefined,
+                token: undefined
+
+            })
+            console.log(error)
         }
 
     },
